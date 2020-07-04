@@ -1,0 +1,23 @@
+@import url(../__plus/profile__plus.css);
+
+.profile__edit_button {
+
+
+  width: 24px;
+  height: 24px;
+
+  text-decoration: none;
+  color: #fff;
+  background-image: url(../../../images/pensil.png);
+  background-size: 10px 10px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+
+  border: 2px solid #FFFFFF;
+
+  margin-left: 17px;
+  align-self: center;
+  margin-bottom: 28px;
+
+}

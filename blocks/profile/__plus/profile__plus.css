@@ -1,0 +1,14 @@
+.profile__plus {
+
+  width: 22px;
+
+  margin: auto;
+
+  background-image: url(../../../images/plus.png);
+  background-size: cover;
+
+  background-repeat: no-repeat;
+  background-position: center;
+
+
+}

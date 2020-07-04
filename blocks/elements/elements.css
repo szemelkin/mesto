@@ -1,0 +1,11 @@
+.elements {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  justify-content: space-between;
+
+  padding-top: 51px;
+
+
+}
