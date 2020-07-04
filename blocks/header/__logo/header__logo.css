@@ -1,0 +1,30 @@
+.header__logo {
+
+  height: 52px;
+  width: 176px;
+  object-fit: cover;
+  object-position: top;
+  padding-left: 48px;
+
+}
+
+
+@media (max-width: 768px) {
+
+  .header__logo {
+
+    padding-left: 24px;
+
+  }
+}
+
+@media (max-width: 425px) {
+
+  .header__logo {
+    height: 42px;
+    width: 142px;
+
+    padding-left: 16px;
+
+  }
+}

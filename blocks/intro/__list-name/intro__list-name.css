@@ -1,0 +1,25 @@
+.intro__list-name {
+
+  color: #ffffff;
+  padding: 0; /* Убираем поля */
+  margin: 0px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 700;
+
+}
+
+
+@media (max-width: 1024px) {
+  .intro__list-name {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+ .intro__list-name {
+
+    box-sizing: border-box;
+  }
+}
+

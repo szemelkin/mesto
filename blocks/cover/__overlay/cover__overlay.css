@@ -1,0 +1,71 @@
+
+.cover__overlay {
+  text-decoration: none;
+  color: #fff;
+  background-image: url(../../../images/cover_trans.jpg);
+  background-size: cover;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  max-width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  padding: calc(245*100%/1184) 0;
+
+}
+
+
+@media (min-width: 1280px) {
+  .cover__overlay {
+    width: 100%;
+    padding: 245px 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cover__overlay {
+
+    padding: calc(195*100%/1024) 0;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .cover__overlay {
+
+    padding: calc(115*100%/768) 0;
+  }
+}
+
+@media (max-width: 425px) {
+  .cover__overlay {
+
+    padding: calc(33*100%/320) 0;
+
+  }
+}
+
+
+
+.cover__overlay::before {
+  content: '';
+  display: block;
+  background-color: #2A2C2F;
+  opacity: 0.3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.2s linear;
+}
+
+.cover__overlay:hover::before {
+  opacity: 0.8;
+}

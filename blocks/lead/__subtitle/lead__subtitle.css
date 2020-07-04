@@ -1,0 +1,57 @@
+.lead__subtitle{
+
+  /*max-height: 72px;*/
+  width: 640px;
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 32px;
+  margin-bottom: 0px;
+
+  font-weight: 400;
+  font-size: 30px;
+  color: white;
+  line-height: 36px;
+  text-align: center;
+
+
+
+}
+
+
+@media (max-width: 1024px) {
+  /* стили для планшета */
+  .lead__subtitle{
+
+    width: 62%;
+    margin-top: 32px;
+
+  }
+}
+
+
+
+
+@media (max-width: 767px) {
+ /* стили для широкого смартфона */
+ .lead__subtitle{
+
+    width: 83%;
+    margin-top: 16px;
+
+    font-size: 16px;
+  }
+
+}
+
+
+@media (max-width: 320px) {
+  /* стили для малого смартфона */
+  .lead__subtitle{
+
+    width: 90%;
+
+    line-height: 20px;
+  }
+
+}
