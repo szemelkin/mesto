@@ -1,11 +1,10 @@
 .header__logo {
 
-  height: 33px;
-  width: 142px;
+  height: 52px;
+  width: 176px;
   object-fit: cover;
   object-position: top;
-  margin-left: 0px;
-  margin-top: 0px;
+  padding-left: 48px;
 
 }
 
