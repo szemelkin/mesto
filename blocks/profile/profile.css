@@ -4,9 +4,9 @@
 @import url(./__info/profile__info.css);
 @import url(./__avatar/profile_avatar.css);
 @import url(./__add_button/profile__add_button.css);
-@import url(./__plus/profile__plus.css);
 @import url(./__edit_button/profile__edit_button.css);
 @import url(./__empty/profile__empty.css);
+@import url(./__cross/profile__cross.css);
 
 
 .profile {
