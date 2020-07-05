@@ -2,12 +2,19 @@
 @import url(./_type/modal__input_type_status.css);
 
 .modal__input {
+
+  width: 358px;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
 
   color: #000000;
+
+  border: none;
+  border-bottom: 1px solid #f1f1f1;
+  box-sizing: border-box;
+}
 
 
 }

@@ -13,4 +13,10 @@
 
   color: #FFFFFF;
   margin-top: 48px;
+
+  box-sizing: border-box;
+}
+
+.modal__btn-save:hover {
+  opacity: 0.8;
 }

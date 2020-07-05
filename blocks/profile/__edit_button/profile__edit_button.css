@@ -21,3 +21,8 @@
   margin-bottom: 28px;
 
 }
+
+
+.profile__edit_button:hover {
+  opacity: 0.6;
+}

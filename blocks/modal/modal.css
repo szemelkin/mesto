@@ -6,6 +6,7 @@
 
 
 
+
 .modal {
   font-family: Inter;
 
@@ -14,13 +15,14 @@
   position: fixed;
   top: 0;
   top: 0;
-  background: black;
+  background-color: rgba(0, 0, 0, 0.5);
 
   height: 100%;
   width: 100%;
   display: none;
   justify-content: center;
   align-items: center;
-}
+
+
 
 
