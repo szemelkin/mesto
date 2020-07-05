@@ -20,3 +20,22 @@
 
   opacity: 0.6;
 }
+
+
+@media (max-width: 680px) {
+
+  .profile__add_button {
+
+    margin-top: 36px;
+
+  }
+}
+
+@media (max-width: 425px) {
+
+  .profile__add_button {
+    width: 100%;
+    margin-top: 36px;
+
+  }
+}

@@ -16,5 +16,14 @@
 
 }
 
+@media (max-width: 930px) {
+
+  .page {
+    padding: 0px 19px 0px 19px;
+  }
+}
+
+
+
 
 

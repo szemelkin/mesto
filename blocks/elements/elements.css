@@ -9,3 +9,11 @@
 
 
 }
+
+
+@media (max-width: 910px) {
+
+  .elements {
+    justify-content: space-evenly;
+  }
+}

@@ -20,3 +20,13 @@
 .modal__btn-save:hover {
   opacity: 0.8;
 }
+
+@media (max-width: 530px) {
+
+  .modal__btn-save {
+    max-width: 100%;
+
+    font-size: 14px;
+    line-height: 18px;
+  }
+}

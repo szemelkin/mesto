@@ -23,32 +23,11 @@
 
 }
 
+@media (max-width: 425px) {
 
-@media (max-width: 1024px) {
   .footer {
-
-    padding-top: 46px;
-  }
-}
-
-@media (max-width: 768px) {
- .footer {
-  width: 100%;
-  padding-top: 66px;
-  padding-bottom: 60px;
-  box-sizing: border-box;
-  }
-}
-
-@media (max-width: 730px) {
-  .footer {
-
-    padding-top: 64px;
-
-    flex-direction: column;
-
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-top: 28px;
+    padding-bottom: 36px;
 
   }
 }

@@ -13,3 +13,11 @@
   flex-direction: column;
 
 }
+
+
+@media (max-width: 530px) {
+
+  .modal__container {
+    max-width: 70%;
+  }
+}

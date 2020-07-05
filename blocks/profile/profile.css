@@ -7,6 +7,7 @@
 @import url(./__edit_button/profile__edit_button.css);
 @import url(./__empty/profile__empty.css);
 @import url(./__cross/profile__cross.css);
+@import url(./__title-btn/profile__title-btn.css);
 
 
 
@@ -21,3 +22,16 @@
 
   padding-top: 40px;
 }
+
+
+@media (max-width: 680px) {
+
+  .profile {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+  }
+}
+
