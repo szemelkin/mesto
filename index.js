@@ -1,13 +1,13 @@
-let openModalButton = document.querySelector('.profile__edit_button');
-let closeModalButton = document.querySelector('.modal__close-button');
-let modal = document.querySelector('.modal');
-let form = document.querySelector('.modal__form');
+const openModalButton = document.querySelector('.profile__edit_button');
+const closeModalButton = document.querySelector('.modal__close-button');
+const modal = document.querySelector('.modal');
+const form = document.querySelector('.modal__form');
 
-let inputName = document.querySelector('.modal__input_type_name');
-let inputStatus = document.querySelector('.modal__input_type_status');
+const inputName = document.querySelector('.modal__input_type_name');
+const inputStatus = document.querySelector('.modal__input_type_status');
 
-let profileName = document.querySelector('.profile__title');
-let profileText = document.querySelector('.profile__text');
+const profileName = document.querySelector('.profile__title');
+const profileText = document.querySelector('.profile__text');
 
 
 
