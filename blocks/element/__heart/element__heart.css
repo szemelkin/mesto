@@ -1,5 +1,5 @@
 .element__heart {
-  width: 20px;
+  min-width: 20px;
   height: 18px;
 
   background: transparent;
