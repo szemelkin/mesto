@@ -14,7 +14,7 @@ const profileText = document.querySelector('.profile__text');
 
 function toggleModal() {
 
-  if (modal.classList.contains('modal_is-open')) {
+  if (!modal.classList.contains('modal_is-open')) {
     inputName.value = profileName.textContent;
     inputStatus.value = profileText.textContent;
   }
