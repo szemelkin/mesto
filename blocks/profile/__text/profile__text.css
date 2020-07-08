@@ -9,6 +9,10 @@
   color: #FFFFFF;
 
   padding-top: 16px;
+
+
+  text-overflow: ellipsis;
+
 }
 
 @media (max-width: 425px) {

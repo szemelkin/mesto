@@ -10,3 +10,11 @@
   flex-grow: 1;
 
 }
+
+@media (max-width: 680px) {
+
+  .profile__info {
+    padding-left: 0px;
+
+  }
+}

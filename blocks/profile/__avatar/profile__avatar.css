@@ -2,7 +2,7 @@
   margin-top: 0px;
   margin-bottom: 0px;
 
-  width: 127px;
+  min-width: 127px;
   height: 127px;
 
   text-decoration: none;
