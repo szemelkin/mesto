@@ -133,7 +133,8 @@ function handleImageClick(e){
 function showImage(e) {
   e.preventDefault();
   imageShowModal.querySelector('img').src = e.target.src;
-  console.log(e.target.src);
+  imageShowModal.querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
+
 };
 
 //Функция для добавления карточек
