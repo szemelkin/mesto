@@ -18,3 +18,9 @@
   border: none;
   outline: none;
 }
+
+
+.element__delete:hover {
+  opacity: 0.6;
+
+}

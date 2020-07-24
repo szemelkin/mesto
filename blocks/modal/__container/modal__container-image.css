@@ -1,0 +1,12 @@
+.modal__container-image {
+  max-width: 430px;
+  max-height: 50%;
+  color: black;
+  /*padding: 34px 36px 36px 36px;*/
+  box-sizing: border-box;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+}

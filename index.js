@@ -3,8 +3,9 @@ const openAddCardModalButton = document.querySelector(".profile__add-button");
 const openEditProfileModalButton = document.querySelector('.profile__edit-button');
 
 //Идентификация типа модалки
-const addCardModal = document.querySelector('.modal_type_add-card')
+const addCardModal = document.querySelector('.modal_type_add-card');
 const editProfileModal = document.querySelector('.modal_type_edit-profile');
+const imageShowModal = document.querySelector('.modal_type_image');
 
 //Поиск формы в модалке
 const formAddCard = addCardModal.querySelector('.modal__form');
@@ -17,7 +18,6 @@ const inputStatus = formEditProfileModel.querySelector('.modal__input_type_statu
 const inputTitle = formAddCard.querySelector('.modal__input_type_place');
 const inputUrl = formAddCard.querySelector('.modal__input_type_url');
 
-
 //Поля для вывода
 const profileName = document.querySelector('.profile__title');
 const profileText = document.querySelector('.profile__text');
@@ -25,8 +25,7 @@ const profileText = document.querySelector('.profile__text');
 //Поиск кнопки закрытия в модалке
 const addCardCloseModalButton = addCardModal.querySelector('.modal__close-button');
 const editProfileCloseModalButton = editProfileModal.querySelector('.modal__close-button');
-
-
+const imageShowCloseModalButton = imageShowModal.querySelector('.modal__close-button');
 
 //Функция открытия-закрытия модалки
 function toggleModal(modal) {
@@ -58,7 +57,6 @@ function profileAddCardHandler(e) {
 };
 
 
-
 //Открытие и закрытие модалки с добавлением карточки
 openAddCardModalButton.addEventListener('click', () => {
   toggleModal(addCardModal)
@@ -75,13 +73,14 @@ editProfileCloseModalButton.addEventListener('click', () => {
   toggleModal(editProfileModal)
 });
 
+//Закрытие модалки
+imageShowCloseModalButton.addEventListener('click', () => {
+  toggleModal(imageShowModal)
+});
+
 //Обработчики сохранения модалок
 formEditProfileModel.addEventListener('submit', profileEditHandler)
 formAddCard.addEventListener('submit', profileAddCardHandler)
-
-
-
-
 
 //Карточки по умолчанию//
 const initialCards = [
@@ -115,7 +114,26 @@ const initialCards = [
 const cardsListElement = document.querySelector('.elements');
 
 function handleDeleteClick(e){
+  e.preventDefault();
   e.target.closest('.element').remove();
+};
+
+function handleLikeClick(e){
+  e.preventDefault();
+  e.target.classList.toggle('element__heart_black');
+};
+
+function handleImageClick(e){
+  e.preventDefault();
+  showImage(e);
+  toggleModal(imageShowModal);
+};
+
+
+function showImage(e) {
+  e.preventDefault();
+  imageShowModal.querySelector('img').src = e.target.src;
+  console.log(e.target.src);
 };
 
 //Функция для добавления карточек
@@ -124,22 +142,23 @@ function createCard(data) {
   const card = elementTemplate.content.cloneNode(true);
   const cardLikeButton = card.querySelector('.element__heart');
   const cardDeleteButton = card.querySelector('.element__delete');
+  const cardImage = card.querySelector('.element__image');
 
   card.querySelector('img').src = data.link;
   card.querySelector('.element__title').textContent = data.name;
 
     //Кнопки на карточках
-  cardLikeButton.addEventListener('click', () => {
-    //handleLikeClick()
+  cardLikeButton.addEventListener('click', (e) => {
+    handleLikeClick(e);
   });
 
   cardDeleteButton.addEventListener('click', (e) => {
     handleDeleteClick(e);
   });
 
-  // cardImage.addEventListener('click', () => {
-  //   //handleImageClick()
-  // })
+  cardImage.addEventListener('click', (e) => {
+    handleImageClick(e);
+  })
 
   return card;
 }
