@@ -11,8 +11,12 @@ const formAddCard = addCardModal.querySelector('.modal__form');
 const formEditProfileModel = editProfileModal.querySelector('.modal__form');
 
 //Поля для ввода
-const inputName = document.querySelector('.modal__input_type_name');
-const inputStatus = document.querySelector('.modal__input_type_status');
+const inputName = formEditProfileModel.querySelector('.modal__input_type_name');
+const inputStatus = formEditProfileModel.querySelector('.modal__input_type_status');
+
+const inputTitle = formAddCard.querySelector('.modal__input_type_place');
+const inputUrl = formAddCard.querySelector('.modal__input_type_url');
+
 
 //Поля для вывода
 const profileName = document.querySelector('.profile__title');
@@ -48,8 +52,7 @@ function profileEditHandler(e) {
 //Функция сохранения модалки при добавлении карточки
 function profileAddCardHandler(e) {
   e.preventDefault();
-
-
+  renderCard({name:inputTitle.value, link:inputUrl.value})
 
   toggleModal(addCardModal);
 };
@@ -110,35 +113,47 @@ const initialCards = [
 
 //Переменные для вставки карточек
 const cardsListElement = document.querySelector('.elements');
-const elementTemplate = document.querySelector('.element-template');
-const card = elementTemplate.content.cloneNode(true);
-const cardLikeButton = card.querySelector('.element__heart');
-const cardDeleteButton = card.querySelector('.element__delete');
+
+function handleDeleteClick(e){
+  e.target.closest('.element').remove();
+};
 
 //Функция для добавления карточек
-function addCard(data) {
+function createCard(data) {
+  const elementTemplate = document.querySelector('.element-template');
   const card = elementTemplate.content.cloneNode(true);
+  const cardLikeButton = card.querySelector('.element__heart');
+  const cardDeleteButton = card.querySelector('.element__delete');
 
   card.querySelector('img').src = data.link;
   card.querySelector('.element__title').textContent = data.name;
-  cardsListElement.prepend(card)
+
+    //Кнопки на карточках
+  cardLikeButton.addEventListener('click', () => {
+    //handleLikeClick()
+  });
+
+  cardDeleteButton.addEventListener('click', (e) => {
+    handleDeleteClick(e);
+  });
+
+  // cardImage.addEventListener('click', () => {
+  //   //handleImageClick()
+  // })
+
+  return card;
+}
+
+
+//Добавление карточки
+function renderCard(data) {
+  cardsListElement.prepend(createCard(data))
 }
 
 //Функция для пробега по масиву первоначальных карточек
 initialCards.forEach(data => {
-  addCard(data);
+  renderCard(data);
 })
 
-//Кнопки на карточках
-cardLikeButton.addEventListener('click', () => {
-  //handleLikeClick()
-})
 
-cardDeleteButton.addEventListener('click', () => {
-  //handleDeleteClick()
-})
-
-//cardImage.addEventListener('click', () => {
-  //handleImageClick()
-//})
 
