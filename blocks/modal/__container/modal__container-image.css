@@ -1,6 +1,6 @@
 .modal__container-image {
-  max-width: 430px;
-  max-height: 50%;
+  max-width: 75vw;
+  max-height: 75vh;
   color: black;
   /*padding: 34px 36px 36px 36px;*/
   box-sizing: border-box;
