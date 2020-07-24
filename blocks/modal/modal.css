@@ -27,14 +27,13 @@
 
   visibility: hidden;
   opacity: 0;
-  transition: opacity 0.5s linear;
+  transition: visibility 2s, opacity 2s linear;
+
+  display: flex;
+
 
 }
 
-.modal:hover {
-
-  opacity: 1;
-}
 
 
 

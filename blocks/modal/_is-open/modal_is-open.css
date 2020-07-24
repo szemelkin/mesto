@@ -1,7 +1,6 @@
 .modal_is-open {
-  display: flex;
 
   visibility: visible;
-  opacity: 0;
-  transition: opacity 0.5s linear;
+  opacity: 1;
+  transition: visibility 2s, opacity 2s linear;
 }
