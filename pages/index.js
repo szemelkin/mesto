@@ -27,15 +27,18 @@ const addCardCloseModalButton = addCardModal.querySelector('.modal__close-button
 const editProfileCloseModalButton = editProfileModal.querySelector('.modal__close-button');
 const imageShowCloseModalButton = imageShowModal.querySelector('.modal__close-button');
 
-//Функция открытия-закрытия модалки
+//Функция открытия-закрытия
 function toggleModal(modal) {
+  modal.classList.toggle('modal_is-open');
+}
 
+//Функция на открытие и закрытие модалки
+function toggleProfileModal(modal) {
   if (!modal.classList.contains('modal_is-open')) {
     inputName.value = profileName.textContent;
     inputStatus.value = profileText.textContent;
   }
-
-  modal.classList.toggle('modal_is-open');
+  toggleModal(editProfileModal)
 }
 
 //Функция сохранения модалки при редактировании профиля
@@ -45,7 +48,8 @@ function profileEditHandler(e) {
   profileName.textContent = inputName.value;
   profileText.textContent = inputStatus.value;
 
-  toggleModal(editProfileModal);
+  toggleProfileModal(editProfileModal)
+  //toggleModal(editProfileModal);
 };
 
 //Функция сохранения модалки при добавлении карточки
@@ -67,10 +71,12 @@ addCardCloseModalButton.addEventListener('click', () => {
 
 //Открытие и закрытие модалки с редактированием профиля
 openEditProfileModalButton.addEventListener('click', () => {
-  toggleModal(editProfileModal)
+  toggleProfileModal(editProfileModal)
+  //toggleModal(editProfileModal)
 });
 editProfileCloseModalButton.addEventListener('click', () => {
-  toggleModal(editProfileModal)
+  toggleProfileModal(editProfileModal)
+  //toggleModal(editProfileModal)
 });
 
 //Закрытие модалки
@@ -133,7 +139,9 @@ function handleImageClick(e){
 function showImage(e) {
   e.preventDefault();
   imageShowModal.querySelector('img').src = e.target.src;
+  imageShowModal.querySelector('img').alt = e.target.closest('.element').querySelector('.element__title').textContent;
   imageShowModal.querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
+
 
 };
 
@@ -146,6 +154,7 @@ function createCard(data) {
   const cardImage = card.querySelector('.element__image');
 
   card.querySelector('img').src = data.link;
+  card.querySelector('img').alt = data.name;
   card.querySelector('.element__title').textContent = data.name;
 
     //Кнопки на карточках
