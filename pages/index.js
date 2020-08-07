@@ -44,42 +44,30 @@ document.addEventListener('keydown', (evt) => {
   });
 
 
-//Закрываем модалку кликом в любом месте
-function overlayClosing(anyModal) {
-  document.addEventListener('click', function (evt) {
-    if ((evt.target.classList.contains('modal_is-open'))) {
-      toggleModal(anyModal);
+function closeModalAnyClick(anyModal) {
+  if (anyModal.classList.contains('modal_is-open')){
 
-    }
-  });
+    document.addEventListener('click', function (evt) {
+      if (evt.target.classList.contains('modal_is-open')) {
+        anyModal.classList.remove('modal_is-open');
+      }
+    });
 
+  } else {
+
+    document.removeEventListener('click', () => {
+    })
+  }
 }
 
-// document.addEventListener('click', function (evt) {
-//   if ((evt.target.classList.contains('modal_is-open'))) {
-//     toggleModal(editProfileModal);
-//     // toggleModal(addCardModal);
-//     // toggleModal(imageShowModal);
-//   }
-
-
-  // if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close'))
-
-  // if (editProfileModal.classList.contains('modal_is-open')) {
-  //   // toggleModal(editProfileModal);
-  //   console.log('FUCK YOU')
-  // }
-  // if (!(evt.target.classList.contain('modal_is-open'))) {
-  //     toggleModal(editProfileModal);
-  //     toggleModal(addCardModal);
-  //     toggleModal(imageShowModal);
-  //    }
-// });
 
 
 //Функция открытия-закрытия
 function toggleModal(modal) {
+
   modal.classList.toggle('modal_is-open');
+
+  closeModalAnyClick(modal)
 
 }
 
@@ -108,8 +96,6 @@ function profileAddCardHandler(e) {
   e.preventDefault();
   renderCard({name:inputTitle.value, link:inputUrl.value})
 
-  toggleModal(addCardModal);
-
 };
 
 
@@ -117,7 +103,7 @@ function profileAddCardHandler(e) {
 openAddCardModalButton.addEventListener('click', () => {
   toggleModal(addCardModal)
   //Используем функцию для закрытия при клике на оверлей
-  overlayClosing(addCardModal);
+
 });
 
 addCardCloseModalButton.addEventListener('click', () => {
@@ -127,9 +113,7 @@ addCardCloseModalButton.addEventListener('click', () => {
 //Открытие и закрытие модалки с редактированием профиля
 openEditProfileModalButton.addEventListener('click', () => {
   toggleProfileModal(editProfileModal);
-  //Используем функцию для закрытия при клике на оверлей
-  overlayClosing(editProfileModal);
-  //toggleModal(editProfileModal)
+
 });
 
 editProfileCloseModalButton.addEventListener('click', () => {
@@ -193,7 +177,8 @@ function handleImageClick(e){
   showImage(e);
   toggleModal(imageShowModal);
   //Используем функцию для закрытия при клике на оверлей
-  overlayClosing(imageShowModal);
+
+
 };
 
 
@@ -245,164 +230,3 @@ initialCards.forEach(data => {
   renderCard(data);
 })
 
-
-// // /// Игошевский код вторая попытка
-// //  Прописать аттрибуты для валидации  полеей без жс
-// //  Запустить валидацию всех форм
-// // Сбросить дефолтное поведение сабмита и валидации
-// // Повестить обработчик событий на кадлое поле ввода
-// // Проверить валидность введенныз даннызх в поле
-// // Найти ошибку относящуюся к полю
-// // Добавить логику показа и скрытия  ощшибки
-// // Добавить вариацию кнопки
-
-
-// const object = {
-//   formSelector:'.modal__form',
-//   inputSelector: '.modal__input',
-//   inputValidClass: 'modal__input_type_valid',
-//   inputErrorClass: 'modal__input_type_error',
-//   submitButtonSelector: '.modal__btn-save',
-//   inactiveButtonClass: 'modal__btn-disabled',
-//   activeButtonClass: 'modal__btn-undisabled',
-//   errorClass: 'modal__error_visible'
-// }
-
-
-// // Поработаем с кнопкой
-// function  buttonValidation(inputs,buttonSubmit,activeButtonClass,inactiveButtonClass) {
-//   const isFormValid = inputs.some((inputElement) => !inputElement.validity.valid);
-
-//   if (!isFormValid) {
-
-//     buttonSubmit.classList.add(activeButtonClass);
-//     buttonSubmit.classList.remove(inactiveButtonClass);
-//     buttonSubmit.disabled = false;
-//   } else {
-
-//     buttonSubmit.classList.remove(activeButtonClass);
-//     buttonSubmit.classList.add(inactiveButtonClass);
-//     buttonSubmit.disabled = true;
-//   }
-// };
-
-// //Проверим правильность инпутов
-// function  inputValidation(inputElement, inputValidClass, inputErrorClass, errorClass, formElement) {
-//   const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
-//   if (inputElement.validity.valid) {
-//     inputElement.classList.add(inputValidClass);
-//     inputElement.classList.remove(inputErrorClass);
-//     errorElement.textContent = '';
-//     errorElement.classList.remove(errorClass);
-
-//   } else {
-//     inputElement.classList.remove(inputValidClass);
-//     inputElement.classList.add(inputErrorClass);
-//     errorElement.textContent = inputElement.validationMessage;
-//     errorElement.classList.add(errorClass);
-
-//   }
-// };
-
-// // Повесим обработчик на каждый импут
-// function inputsHandler(inputs,formElement, inputValidClass, inputErrorClass, errorClass, formElement,buttonSubmit,activeButtonClass,inactiveButtonClass) {
-
-
-//   inputs.forEach((inputElement)=>{
-//     inputElement.addEventListener('input',(evt)=>{
-//       inputValidation(inputElement, inputValidClass, inputErrorClass, errorClass, formElement);
-//       buttonValidation(inputs,buttonSubmit,activeButtonClass,inactiveButtonClass);
-//     });
-//   });
-// };
-
-// //обработчик форм
-// function formsHandler(formSelector, inputSelector, submitButtonSelector, inputValidClass, inputErrorClass, errorClass, activeButtonClass,inactiveButtonClass) {
-//   const forms = Array.from(document.querySelectorAll(formSelector));
-//   forms.forEach((formElement) => {
-//     //Сбросим дефолтное поведение сабмита
-//     formElement.addEventListener('submit', (evt) => {
-//       evt.preventDefault();
-//     });
-//     // Найдем все инпуты внутри формы
-//     const inputs = Array.from(formElement.querySelectorAll(inputSelector));
-//     // Найдем все сабмиты внутри формы
-//     const buttonSubmit = formElement.querySelector(submitButtonSelector);
-
-//     inputsHandler(inputs,formElement, inputValidClass, inputErrorClass, errorClass, formElement,buttonSubmit,activeButtonClass,inactiveButtonClass)
-//   });
-// }
-
-// const enableValidation = ({formSelector,inputSelector, inputValidClass, inputErrorClass, submitButtonSelector,inactiveButtonClass, activeButtonClass, errorClass}) => {
-//   formsHandler(formSelector, inputSelector, submitButtonSelector, inputValidClass, inputErrorClass, errorClass, activeButtonClass,inactiveButtonClass)
-
-// };
-
-
-// enableValidation(object);
-
-
-
-
-// // const enableValidation = ({formSelector,inputSelector, inputValidClass, inputErrorClass, submitButtonSelector,inactiveButtonClass, activeButtonClass, errorClass}) => {
-// //   formsHandler(formSelector, inputSelector, submitButtonSelector, inputValidClass, inputErrorClass, errorClass, activeButtonClass,inactiveButtonClass)
-// //   // //найдем все формы
-// //   // const forms = Array.from(document.querySelectorAll(formSelector));
-// //   // //Сбросим дефолтное поведение сабмита
-// //   // forms.forEach((formElement) => {
-// //   //   //Сбросим дефолтное поведение сабмита
-// //   //   formElement.addEventListener('submit', (evt) => {
-// //   //     evt.preventDefault();
-// //   //   });
-// //   //   // Найдем все инпуты внутри формы
-// //   //   const inputs = Array.from(formElement.querySelectorAll(inputSelector));
-// //   //   // Найдем все сабмиты внутри формы
-// //   //   const buttonSubmit = formElement.querySelector(submitButtonSelector);
-
-// //   //   inputsHandler(inputs,formElement, inputValidClass, inputErrorClass, errorClass, formElement,buttonSubmit,activeButtonClass,inactiveButtonClass)
-// //   //   // Повесим обработчик на каждый импут
-// //   //   // inputs.forEach((inputElement)=>{
-// //   //   //   inputElement.addEventListener('input',(evt)=>{
-// //   //   //     //Выведем/спрячем ошибки
-// //   //   //     // const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
-
-// //   //   //     inputValidation(inputElement, inputValidClass, inputErrorClass, errorClass, formElement)
-// //   //   //     //Проверим правильность инпутов
-// //   //   //     // if (inputElement.validity.valid) {
-// //   //   //     //   inputElement.classList.add(inputValidClass);
-// //   //   //     //   inputElement.classList.remove(inputErrorClass);
-// //   //   //     //   errorElement.textContent = '';
-// //   //   //     //   errorElement.classList.remove(errorClass);
-
-// //   //   //     // } else {
-// //   //   //     //   inputElement.classList.remove(inputValidClass);
-// //   //   //     //   inputElement.classList.add(inputErrorClass);
-// //   //   //     //   errorElement.textContent = inputElement.validationMessage;
-// //   //   //     //   errorElement.classList.add(errorClass);
-
-// //   //   //     // }
-
-
-// //   //   //     // Поработаем с кнопкой
-// //   //   //     // const isFormValid = inputs.some((inputElement) => !inputElement.validity.valid);
-
-// //   //   //     // if (!isFormValid) {
-
-// //   //   //     //   buttonSubmit.classList.add(activeButtonClass);
-// //   //   //     //   buttonSubmit.classList.remove(inactiveButtonClass);
-// //   //   //     //   buttonSubmit.disabled = false;
-// //   //   //     // } else {
-
-// //   //   //     //   buttonSubmit.classList.remove(activeButtonClass);
-// //   //   //     //   buttonSubmit.classList.add(inactiveButtonClass);
-// //   //   //     //   buttonSubmit.disabled = true;
-// //   //   //     // }
-// //   //   //     buttonValidation(inputs,buttonSubmit,activeButtonClass,inactiveButtonClass)
-
-// //   //     // });
-// //   //   // });
-
-
-// //   // });
-
-// // };
