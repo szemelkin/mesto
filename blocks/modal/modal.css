@@ -6,6 +6,9 @@
 @import url(./__container/modal__container-image.css);
 @import url(./__image/modal__image.css);
 @import url(./__title-image/modal__title-image.css);
+@import url(./__input/_type/modal__input_type_error.css);
+@import url(./__input/_type/modal__input_type_name.css);
+@import url(./__input/_type/modal__input_type_valid.css);
 
 
 
