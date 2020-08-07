@@ -1,0 +1,94 @@
+// /// Игошевский код вторая попытка
+//  Прописать аттрибуты для валидации  полеей без жс
+//  Запустить валидацию всех форм
+// Сбросить дефолтное поведение сабмита и валидации
+// Повестить обработчик событий на кадлое поле ввода
+// Проверить валидность введенныз даннызх в поле
+// Найти ошибку относящуюся к полю
+// Добавить логику показа и скрытия  ощшибки
+// Добавить вариацию кнопки
+
+
+const object = {
+  formSelector:'.modal__form',
+  inputSelector: '.modal__input',
+  inputValidClass: 'modal__input_type_valid',
+  inputErrorClass: 'modal__input_type_error',
+  submitButtonSelector: '.modal__btn-save',
+  inactiveButtonClass: 'modal__btn-disabled',
+  activeButtonClass: 'modal__btn-undisabled',
+  errorClass: 'modal__error_visible'
+}
+
+
+// Поработаем с кнопкой
+function  buttonValidation(inputs,buttonSubmit,activeButtonClass,inactiveButtonClass) {
+  const isFormValid = inputs.some((inputElement) => !inputElement.validity.valid);
+
+  if (!isFormValid) {
+
+    buttonSubmit.classList.add(activeButtonClass);
+    buttonSubmit.classList.remove(inactiveButtonClass);
+    buttonSubmit.disabled = false;
+  } else {
+
+    buttonSubmit.classList.remove(activeButtonClass);
+    buttonSubmit.classList.add(inactiveButtonClass);
+    buttonSubmit.disabled = true;
+  }
+};
+
+//Проверим правильность инпутов
+function  inputValidation(inputElement, inputValidClass, inputErrorClass, errorClass, formElement) {
+  const errorElement = formElement.querySelector(`#${inputElement.name}-error`);
+  if (inputElement.validity.valid) {
+    inputElement.classList.add(inputValidClass);
+    inputElement.classList.remove(inputErrorClass);
+    errorElement.textContent = '';
+    errorElement.classList.remove(errorClass);
+
+  } else {
+    inputElement.classList.remove(inputValidClass);
+    inputElement.classList.add(inputErrorClass);
+    errorElement.textContent = inputElement.validationMessage;
+    errorElement.classList.add(errorClass);
+
+  }
+};
+
+// Повесим обработчик на каждый импут
+function inputsHandler(inputs,formElement, inputValidClass, inputErrorClass, errorClass, formElement,buttonSubmit,activeButtonClass,inactiveButtonClass) {
+
+
+  inputs.forEach((inputElement)=>{
+    inputElement.addEventListener('input',(evt)=>{
+      inputValidation(inputElement, inputValidClass, inputErrorClass, errorClass, formElement);
+      buttonValidation(inputs,buttonSubmit,activeButtonClass,inactiveButtonClass);
+    });
+  });
+};
+
+//обработчик форм
+function formsHandler(formSelector, inputSelector, submitButtonSelector, inputValidClass, inputErrorClass, errorClass, activeButtonClass,inactiveButtonClass) {
+  const forms = Array.from(document.querySelectorAll(formSelector));
+  forms.forEach((formElement) => {
+    //Сбросим дефолтное поведение сабмита
+    formElement.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+    });
+    // Найдем все инпуты внутри формы
+    const inputs = Array.from(formElement.querySelectorAll(inputSelector));
+    // Найдем все сабмиты внутри формы
+    const buttonSubmit = formElement.querySelector(submitButtonSelector);
+    // Запустим обработчик инпутов
+    inputsHandler(inputs,formElement, inputValidClass, inputErrorClass, errorClass, formElement,buttonSubmit,activeButtonClass,inactiveButtonClass)
+  });
+}
+
+const enableValidation = ({formSelector,inputSelector, inputValidClass, inputErrorClass, submitButtonSelector,inactiveButtonClass, activeButtonClass, errorClass}) => {
+  formsHandler(formSelector, inputSelector, submitButtonSelector, inputValidClass, inputErrorClass, errorClass, activeButtonClass,inactiveButtonClass)
+
+};
+
+
+enableValidation(object);
