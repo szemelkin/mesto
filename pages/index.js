@@ -39,7 +39,9 @@ const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
 function escapeCloseModal(evt, anyModal) {
   const escKey = 'Escape';
   if (evt.key === escKey && anyModal.classList.contains('modal_is-open')) {
+
     toggleModal(anyModal);
+
   }
 }
 
@@ -64,6 +66,8 @@ function closeModalByEsc(anyModal){
       escapeCloseModal(evt, anyModal);
       enterPressChecker(evt, anyModal)
     });
+    cardCheckValidStyle();
+
   }
 }
 
@@ -90,6 +94,7 @@ function closeModalByClickInAnyPlace(anyModal) {
 //Функция открытия-закрытия
 function toggleModal(modal) {
   removeDisableFromCardSubmitButton()
+
   modal.classList.toggle('modal_is-open');
 
   closeModalByClickInAnyPlace(modal);
@@ -118,14 +123,29 @@ function profileEditHandler(e) {
 
 };
 
+
+//Чекер наличия стиля случая валидной формы
+function cardCheckValidStyle(){
+
+  if (inputTitle.classList.contains('modal__input_type_valid')){
+    inputTitle.classList.remove('modal__input_type_valid')
+  }
+  if (inputUrl.classList.contains('modal__input_type_valid')){
+    inputUrl.classList.remove('modal__input_type_valid')
+  }
+  formAddCard.reset()
+  subButtonForAddCard.disabled = true;
+  subButtonForAddCard.classList.remove('modal__btn-undisabled')
+}
+
+
 //Функция сохранения модалки при добавлении карточки
 function profileAddCardHandler(e) {
   e.preventDefault();
   renderCard({name:inputTitle.value, link:inputUrl.value})
 
   formAddCard.reset()
-  inputTitle.classList.remove('modal__input_type_valid')
-  inputUrl.classList.remove('modal__input_type_valid')
+
   subButtonForAddCard.classList.remove('modal__btn-undisabled')
   subButtonForAddCard.disabled = true;
   toggleModal(addCardModal)
