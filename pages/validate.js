@@ -25,7 +25,7 @@ function  buttonValidation(inputs,buttonSubmit,activeButtonClass,inactiveButtonC
     buttonSubmit.classList.remove(activeButtonClass);
     buttonSubmit.classList.add(inactiveButtonClass);
     buttonSubmit.disabled = true;
-    console.log('HELLO')
+
   }
 };
 
