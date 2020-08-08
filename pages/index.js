@@ -30,6 +30,8 @@ const imageShowCloseModalButton = imageShowModal.querySelector('.modal__close-bu
 //Картиник
 const imageInModal = imageShowModal.querySelector('img');
 
+const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
+
 
 
 
@@ -66,23 +68,6 @@ function closeModalByEsc(anyModal){
 }
 
 
-// //Навешиваем прослушивание кнопки
-// function closeModalByEsc(anyModal){
-//   if (anyModal.classList.contains('modal_is-open')){
-
-//     document.addEventListener('keydown', (evt) => {
-//       escapeCloseModal(evt, anyModal);
-//     });
-//     document.removeEventListener('keydown', (evt) => {
-//       escapeCloseModal(evt, anyModal);
-//     });
-//   }
-// }
-
-
-
-
-
 //Функция закрытия по клику в любое место
 function closeModalByClickInAnyPlace(anyModal) {
   if (anyModal.classList.contains('modal_is-open')){
@@ -100,23 +85,20 @@ function closeModalByClickInAnyPlace(anyModal) {
   }
 }
 
-//Функция сохранения карточки при нажатии на Enter в полях ввода
-function saveCardByEnter() {
-
-}
 
 
 //Функция открытия-закрытия
 function toggleModal(modal) {
-
+  removeDisableFromCardSubmitButton()
   modal.classList.toggle('modal_is-open');
 
   closeModalByClickInAnyPlace(modal);
   closeModalByEsc(modal);
 
+
 }
 
-//Функция на открытие и закрытие модалки
+//Функция на открытие и закрытие модалки при работе с профилем
 function toggleProfileModal(modal) {
   if (!modal.classList.contains('modal_is-open')) {
     inputName.value = profileName.textContent;
@@ -140,16 +122,36 @@ function profileEditHandler(e) {
 function profileAddCardHandler(e) {
   e.preventDefault();
   renderCard({name:inputTitle.value, link:inputUrl.value})
+
+  formAddCard.reset()
+  inputTitle.classList.remove('modal__input_type_valid')
+  inputUrl.classList.remove('modal__input_type_valid')
+  subButtonForAddCard.classList.remove('modal__btn-undisabled')
+  subButtonForAddCard.disabled = true;
   toggleModal(addCardModal)
+
+
 };
 
 
 //Открытие и закрытие модалки с добавлением карточки
 openAddCardModalButton.addEventListener('click', () => {
+
+  if (!addCardModal.classList.contains('modal_is-open')) {
+    subButtonForAddCard.classList.add(object.inactiveButtonClass);
+  }
+
   toggleModal(addCardModal)
 
-
 });
+
+//Функция удаления стиля дисбаленной кнопки у карточки
+function removeDisableFromCardSubmitButton() {
+  if (addCardModal.classList.contains('modal_is-open')) {
+    subButtonForAddCard.classList.remove(object.inactiveButtonClass);
+  }
+
+}
 
 addCardCloseModalButton.addEventListener('click', () => {
   toggleModal(addCardModal)
