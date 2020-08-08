@@ -27,6 +27,11 @@ const addCardCloseModalButton = addCardModal.querySelector('.modal__close-button
 const editProfileCloseModalButton = editProfileModal.querySelector('.modal__close-button');
 const imageShowCloseModalButton = imageShowModal.querySelector('.modal__close-button');
 
+//Картиник
+const imageInModal = imageShowModal.querySelector('img');
+
+
+
 
 //Функция закрытия по Esc
 function escapeCloseModal(evt, anyModal) {
@@ -36,15 +41,50 @@ function escapeCloseModal(evt, anyModal) {
   }
 }
 
-//Навешиваем всем модалкам (попапам) закрытие от клавищи Esc
-document.addEventListener('keydown', (evt) => {
-  escapeCloseModal(evt, editProfileModal);
-  escapeCloseModal(evt, addCardModal);
-  escapeCloseModal(evt, imageShowModal);
-  });
+//Функция проверки и обработки при нажатии Enter
+function enterPressChecker(evt, anyModal) {
+  const enterKey = 'Enter';
+  if (evt.key === enterKey && anyModal.classList.contains('modal_is-open')) {
+    profileAddCardHandler
+  }
+}
 
 
-function closeModalAnyClick(anyModal) {
+//Функция закрытия по нажатию Esc при открытой модалке
+function closeModalByEsc(anyModal){
+  if (anyModal.classList.contains('modal_is-open')){
+
+    document.addEventListener('keydown', (evt) => {
+      escapeCloseModal(evt, anyModal);
+      enterPressChecker(evt, anyModal)
+    });
+    document.removeEventListener('keydown', (evt) => {
+      escapeCloseModal(evt, anyModal);
+      enterPressChecker(evt, anyModal)
+    });
+  }
+}
+
+
+// //Навешиваем прослушивание кнопки
+// function closeModalByEsc(anyModal){
+//   if (anyModal.classList.contains('modal_is-open')){
+
+//     document.addEventListener('keydown', (evt) => {
+//       escapeCloseModal(evt, anyModal);
+//     });
+//     document.removeEventListener('keydown', (evt) => {
+//       escapeCloseModal(evt, anyModal);
+//     });
+//   }
+// }
+
+
+
+
+
+//Функция закрытия по клику в любое место
+function closeModalByClickInAnyPlace(anyModal) {
   if (anyModal.classList.contains('modal_is-open')){
 
     document.addEventListener('click', function (evt) {
@@ -60,6 +100,10 @@ function closeModalAnyClick(anyModal) {
   }
 }
 
+//Функция сохранения карточки при нажатии на Enter в полях ввода
+function saveCardByEnter() {
+
+}
 
 
 //Функция открытия-закрытия
@@ -67,7 +111,8 @@ function toggleModal(modal) {
 
   modal.classList.toggle('modal_is-open');
 
-  closeModalAnyClick(modal)
+  closeModalByClickInAnyPlace(modal);
+  closeModalByEsc(modal);
 
 }
 
@@ -88,21 +133,21 @@ function profileEditHandler(e) {
   profileText.textContent = inputStatus.value;
 
   toggleProfileModal(editProfileModal)
-  //toggleModal(editProfileModal);
+
 };
 
 //Функция сохранения модалки при добавлении карточки
 function profileAddCardHandler(e) {
   e.preventDefault();
   renderCard({name:inputTitle.value, link:inputUrl.value})
-
+  toggleModal(addCardModal)
 };
 
 
 //Открытие и закрытие модалки с добавлением карточки
 openAddCardModalButton.addEventListener('click', () => {
   toggleModal(addCardModal)
-  //Используем функцию для закрытия при клике на оверлей
+
 
 });
 
@@ -118,7 +163,7 @@ openEditProfileModalButton.addEventListener('click', () => {
 
 editProfileCloseModalButton.addEventListener('click', () => {
   toggleProfileModal(editProfileModal)
-  //toggleModal(editProfileModal)
+
 });
 
 //Закрытие модалки
@@ -184,8 +229,8 @@ function handleImageClick(e){
 
 function showImage(e) {
   e.preventDefault();
-  imageShowModal.querySelector('img').src = e.target.src;
-  imageShowModal.querySelector('img').alt = e.target.closest('.element').querySelector('.element__title').textContent;
+  imageInModal.src = e.target.src;
+  imageInModal.alt = e.target.closest('.element').querySelector('.element__title').textContent;
   imageShowModal.querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
 
 
@@ -198,9 +243,10 @@ function createCard(data) {
   const cardLikeButton = card.querySelector('.element__heart');
   const cardDeleteButton = card.querySelector('.element__delete');
   const cardImage = card.querySelector('.element__image');
+  const cardImageSource = card.querySelector('img');
 
-  card.querySelector('img').src = data.link;
-  card.querySelector('img').alt = data.name;
+  cardImageSource.src = data.link;
+  cardImageSource.alt = data.name;
   card.querySelector('.element__title').textContent = data.name;
 
     //Кнопки на карточках

@@ -1,13 +1,3 @@
-// /// Игошевский код вторая попытка
-//  Прописать аттрибуты для валидации  полеей без жс
-//  Запустить валидацию всех форм
-// Сбросить дефолтное поведение сабмита и валидации
-// Повестить обработчик событий на кадлое поле ввода
-// Проверить валидность введенныз даннызх в поле
-// Найти ошибку относящуюся к полю
-// Добавить логику показа и скрытия  ощшибки
-// Добавить вариацию кнопки
-
 
 const object = {
   formSelector:'.modal__form',
@@ -61,7 +51,7 @@ function inputsHandler(inputs,formElement, inputValidClass, inputErrorClass, err
 
 
   inputs.forEach((inputElement)=>{
-    inputElement.addEventListener('input',(evt)=>{
+    inputElement.addEventListener('input',()=>{
       inputValidation(inputElement, inputValidClass, inputErrorClass, errorClass, formElement);
       buttonValidation(inputs,buttonSubmit,activeButtonClass,inactiveButtonClass);
     });
