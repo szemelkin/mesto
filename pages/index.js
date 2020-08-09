@@ -60,7 +60,7 @@ function enterPressChecker(evt, anyModal) {
 
   if (evt.key === enterKey && anyModal.classList.contains('modal_is-open')) {
     profileAddCardHandler
-    toggleModal(anyModal);
+    // toggleModal(addCardModal);
     document.removeEventListener('keydown', doForEnter);
     document.removeEventListener('keydown', doForEsc);
 
