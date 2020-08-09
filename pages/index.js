@@ -38,8 +38,10 @@ const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
 //Функция закрытия по Esc
 function escapeCloseModal(evt, anyModal) {
   const escKey = 'Escape';
-
+  console.log('HELP')
   if (evt.key === escKey && anyModal.classList.contains('modal_is-open')) {
+
+
 
     toggleModal(anyModal);
 
@@ -93,6 +95,8 @@ function closeModalByEsc(anyModal){
     cardCheckValidStyle();
 
 
+
+
   }
   if(anyModal.classList.contains('modal_type_add-card') & anyModal.classList.contains('modal_is-open')){
     document.addEventListener('keydown', doForEnter);
@@ -105,11 +109,14 @@ function closeModalByEsc(anyModal){
 
 function closeByAnyClick(evt) {
 
-  console.log(evt.target.classList)
+
 
   if (evt.target.classList.contains('modal_is-open')) {
     evt.target.classList.remove('modal_is-open');
     document.removeEventListener('click', closeByAnyClick);
+
+    document.removeEventListener('keydown', doForEsc);
+    document.removeEventListener('keydown', doForEnter);
 
 
   }
