@@ -94,21 +94,26 @@ function closeModalByEsc(anyModal){
 
 
 
+function closeByAnyClick(evt) {
+
+  console.log(evt.target.classList)
+
+  if (evt.target.classList.contains('modal_is-open')) {
+    evt.target.classList.remove('modal_is-open');
+    document.removeEventListener('click', closeByAnyClick);
+
+  }
+
+
+}
+
 //Функция закрытия по клику в любое место
 function closeModalByClickInAnyPlace(anyModal) {
   if (anyModal.classList.contains('modal_is-open')){
 
-    document.addEventListener('click', function (evt) {
-      if (evt.target.classList.contains('modal_is-open')) {
-        anyModal.classList.remove('modal_is-open');
-      }
-    });
-
-  } else {
-
-    document.removeEventListener('click', () => {
-    })
+    document.addEventListener('click', closeByAnyClick);
   }
+
 }
 
 
