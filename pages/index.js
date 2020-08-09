@@ -38,7 +38,7 @@ const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
 //Функция закрытия по Esc
 function escapeCloseModal(evt, anyModal) {
   const escKey = 'Escape';
-  console.log('HELP')
+
   if (evt.key === escKey && anyModal.classList.contains('modal_is-open')) {
 
 
