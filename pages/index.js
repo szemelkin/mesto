@@ -38,38 +38,60 @@ const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
 //Функция закрытия по Esc
 function escapeCloseModal(evt, anyModal) {
   const escKey = 'Escape';
+
   if (evt.key === escKey && anyModal.classList.contains('modal_is-open')) {
 
     toggleModal(anyModal);
 
+    cardCheckValidStyle();
+    document.removeEventListener('keydown', doForEsc);
+    document.removeEventListener('keydown', doForEnter);
+
   }
 }
+
 
 //Функция проверки и обработки при нажатии Enter
 function enterPressChecker(evt, anyModal) {
   const enterKey = 'Enter';
+
   if (evt.key === enterKey && anyModal.classList.contains('modal_is-open')) {
     profileAddCardHandler
+
+    document.removeEventListener('keydown', doForEnter);
+    document.removeEventListener('keydown', doForEsc);
   }
+}
+
+//Обработчик слушателя Enter
+function doForEnter(evt)   {
+  enterPressChecker(evt, addCardModal)
+  enterPressChecker(evt, editProfileModal)
+  enterPressChecker(evt, imageShowModal)
+}
+
+
+//Обработчик слушателя для Esc
+
+function doForEsc(evt)   {
+  escapeCloseModal(evt, addCardModal)
+  escapeCloseModal(evt, editProfileModal)
+  escapeCloseModal(evt, imageShowModal)
 }
 
 
 //Функция закрытия по нажатию Esc при открытой модалке
 function closeModalByEsc(anyModal){
   if (anyModal.classList.contains('modal_is-open')){
+    document.addEventListener('keydown', doForEsc);
 
-    document.addEventListener('keydown', (evt) => {
-      escapeCloseModal(evt, anyModal);
-      enterPressChecker(evt, anyModal)
-    });
-    document.removeEventListener('keydown', (evt) => {
-      escapeCloseModal(evt, anyModal);
-      enterPressChecker(evt, anyModal)
-    });
     cardCheckValidStyle();
-
+  }
+  if(anyModal.classList.contains('modal_type_add-card') & anyModal.classList.contains('modal_is-open')){
+    document.addEventListener('keydown', doForEnter);
   }
 }
+
 
 
 //Функция закрытия по клику в любое место
