@@ -43,12 +43,15 @@ function escapeCloseModal(evt, anyModal) {
 
     toggleModal(anyModal);
 
-    cardCheckValidStyle();
+
     document.removeEventListener('keydown', doForEsc);
     document.removeEventListener('keydown', doForEnter);
+    cardCheckValidStyle();
+
 
   }
 }
+
 
 
 //Функция проверки и обработки при нажатии Enter
@@ -57,9 +60,10 @@ function enterPressChecker(evt, anyModal) {
 
   if (evt.key === enterKey && anyModal.classList.contains('modal_is-open')) {
     profileAddCardHandler
-
+    toggleModal(anyModal);
     document.removeEventListener('keydown', doForEnter);
     document.removeEventListener('keydown', doForEsc);
+
   }
 }
 
@@ -84,11 +88,16 @@ function doForEsc(evt)   {
 function closeModalByEsc(anyModal){
   if (anyModal.classList.contains('modal_is-open')){
     document.addEventListener('keydown', doForEsc);
-
+    formAddCard.reset()
+    addCardModal.querySelector('.modal__input__error').classList.textContent = '';
     cardCheckValidStyle();
+
+
   }
   if(anyModal.classList.contains('modal_type_add-card') & anyModal.classList.contains('modal_is-open')){
     document.addEventListener('keydown', doForEnter);
+
+
   }
 }
 
@@ -101,6 +110,7 @@ function closeByAnyClick(evt) {
   if (evt.target.classList.contains('modal_is-open')) {
     evt.target.classList.remove('modal_is-open');
     document.removeEventListener('click', closeByAnyClick);
+
 
   }
 
@@ -160,9 +170,25 @@ function cardCheckValidStyle(){
   if (inputUrl.classList.contains('modal__input_type_valid')){
     inputUrl.classList.remove('modal__input_type_valid')
   }
+
+  if (inputTitle.classList.contains('modal__input_type_error')){
+    inputTitle.classList.remove('modal__input_type_error')
+  }
+  if (inputUrl.classList.contains('modal__input_type_error')){
+    inputUrl.classList.remove('modal__input_type_error')
+  }
+
+
+
+
   formAddCard.reset()
   subButtonForAddCard.disabled = true;
   subButtonForAddCard.classList.remove('modal__btn-undisabled')
+
+  addCardModal.querySelector(`#modal__input-title-error`).textContent = '';
+  addCardModal.querySelector(`#modal__input-url-error`).textContent = '';
+
+
 }
 
 

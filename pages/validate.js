@@ -7,7 +7,7 @@ const object = {
   submitButtonSelector: '.modal__btn-save',
   inactiveButtonClass: 'modal__btn-disabled',
   activeButtonClass: 'modal__btn-undisabled',
-  errorClass: 'modal__error_visible'
+  errorClass: 'modal__error-visible'
 }
 
 
@@ -28,6 +28,8 @@ function  buttonValidation(inputs,buttonSubmit,activeButtonClass,inactiveButtonC
 
   }
 };
+
+// errorElement.classList.remove('modal__error_visible');
 
 //Проверим правильность инпутов
 function  inputValidation(inputElement, inputValidClass, inputErrorClass, errorClass, formElement) {

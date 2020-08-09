@@ -14,6 +14,7 @@
 @import url(./__title/modal__title.css);
 @import url(./_is-open/modal_is-open.css);
 @import url(./__container-image/modal__container-image.css);
+@import url(./__error-visible/modal__error-visible.css);
 
 
 
