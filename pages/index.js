@@ -24,239 +24,171 @@ const profileText = document.querySelector('.profile__text');
 
 //Поиск кнопки закрытия в модалке
 const addCardCloseModalButton = addCardModal.querySelector('.modal__close-button');
-const editProfileCloseModalButton = editProfileModal.querySelector('.modal__close-button');
-const imageShowCloseModalButton = imageShowModal.querySelector('.modal__close-button');
+const closeEditProfileModalButton = editProfileModal.querySelector('.modal__close-button');
+const closeImageShowModalButton = imageShowModal.querySelector('.modal__close-button');
 
 //Картиник
 const imageInModal = imageShowModal.querySelector('img');
-
 const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
+//-----------------------------------------------------------
 
+// Открытие и закрытие модалки
+const closeModalWindow = (modalWindow) => {
+  // удаляем событие keydown
+  document.removeEventListener('keydown', handleEscUp);
+  document.removeEventListener('click', handleClickAroundModalWindow);
+  // скрываем попап
+  modalWindow.classList.remove('modal_is-open');
+  // сбрасываем формы
+  modalWindow.querySelector('.modal__form').reset();
+  // сбасываем валидацию
+  cardCheckValidStyle()
+};
+//----------------------------------------
 
-
-
-//Функция закрытия по Esc
-function escapeCloseModal(evt, anyModal) {
-  const escKey = 'Escape';
-
-  if (evt.key === escKey && anyModal.classList.contains('modal_is-open')) {
-
-
-
-    toggleModal(anyModal);
-
-
-    document.removeEventListener('keydown', doForEsc);
-    document.removeEventListener('keydown', doForEnter);
-    cardCheckValidStyle();
-
-
-  }
+//Длаем активной кнопку Submit
+const makeSubmitActive = (modalWindow) => {
+  const activePopup = modalWindow.querySelector('.modal__btn-save');
+  // открываем модалку
+  activePopup.disabled = false;
+  activePopup.classList.remove('modal__btn-disabled');
 }
 
 
-
-//Функция проверки и обработки при нажатии Enter
-function enterPressChecker(evt, anyModal) {
-  const enterKey = 'Enter';
-
-  if (evt.key === enterKey && anyModal.classList.contains('modal_is-open')) {
-    profileAddCardHandler
-    // toggleModal(addCardModal);
-    document.removeEventListener('keydown', doForEnter);
-    document.removeEventListener('keydown', doForEsc);
-
-  }
+const openModalWindow = (modalWindow) => {
+  // добавляем событие keydown
+  document.addEventListener('keydown', handleEscUp);
+  document.addEventListener('click', handleClickAroundModalWindow);
+  // открываем модалку
+  modalWindow.classList.add('modal_is-open');
 }
+//----------------------------------------
 
-//Обработчик слушателя Enter
-function doForEnter(evt)   {
-  enterPressChecker(evt, addCardModal)
-  enterPressChecker(evt, editProfileModal)
-  enterPressChecker(evt, imageShowModal)
-}
-
-
-//Обработчик слушателя для Esc
-
-function doForEsc(evt)   {
-  escapeCloseModal(evt, addCardModal)
-  escapeCloseModal(evt, editProfileModal)
-  escapeCloseModal(evt, imageShowModal)
-}
-
-
-//Функция закрытия по нажатию Esc при открытой модалке
-function closeModalByEsc(anyModal){
-  if (anyModal.classList.contains('modal_is-open')){
-    document.addEventListener('keydown', doForEsc);
-    formAddCard.reset()
-    addCardModal.querySelector('.modal__input__error').classList.textContent = '';
-    cardCheckValidStyle();
-
-
-
-
-  }
-  if(anyModal.classList.contains('modal_type_add-card') & anyModal.classList.contains('modal_is-open')){
-    document.addEventListener('keydown', doForEnter);
-
-
-  }
-}
-
-
-
-function closeByAnyClick(evt) {
-
-
-
-  if (evt.target.classList.contains('modal_is-open')) {
-    evt.target.classList.remove('modal_is-open');
-    document.removeEventListener('click', closeByAnyClick);
-
-    document.removeEventListener('keydown', doForEsc);
-    document.removeEventListener('keydown', doForEnter);
-
-
-  }
-
-
-}
-
-//Функция закрытия по клику в любое место
-function closeModalByClickInAnyPlace(anyModal) {
-  if (anyModal.classList.contains('modal_is-open')){
-
-    document.addEventListener('click', closeByAnyClick);
-  }
-
-}
-
-
-
-//Функция открытия-закрытия
-function toggleModal(modal) {
-  removeDisableFromCardSubmitButton()
-
-  modal.classList.toggle('modal_is-open');
-
-  closeModalByClickInAnyPlace(modal);
-  closeModalByEsc(modal);
-
-
-}
-
-//Функция на открытие и закрытие модалки при работе с профилем
-function toggleProfileModal(modal) {
-  if (!modal.classList.contains('modal_is-open')) {
-    inputName.value = profileName.textContent;
-    inputStatus.value = profileText.textContent;
-  }
-  toggleModal(editProfileModal)
-}
-
-//Функция сохранения модалки при редактировании профиля
-function profileEditHandler(e) {
-  e.preventDefault();
-
-  profileName.textContent = inputName.value;
-  profileText.textContent = inputStatus.value;
-
-  toggleProfileModal(editProfileModal)
-
+// Слушатели Esc, клика и Enter
+const handleEscUp = (evt) => {
+  const activePopup = document.querySelector('.modal_is-open');
+  if (evt.key === 'Escape') {
+    closeModalWindow(activePopup);
+  };
 };
 
+const handleClickAroundModalWindow = (evt) => {
+  const activePopup = document.querySelector('.modal_is-open');
+  if (evt.target.classList.contains('modal_is-open')) {
+    closeModalWindow(activePopup);
+  };
+};
+//-----------------------------------------------------------
 
-//Чекер наличия стиля случая валидной формы
+
+// Убираем стили валидации
 function cardCheckValidStyle(){
 
   if (inputTitle.classList.contains('modal__input_type_valid')){
     inputTitle.classList.remove('modal__input_type_valid')
   }
-  if (inputUrl.classList.contains('modal__input_type_valid')){
+  if (inputUrl.classList.contains('modal__input_type_valid')) {
     inputUrl.classList.remove('modal__input_type_valid')
   }
 
+  if (inputName.classList.contains('modal__input_type_valid')){
+    inputName.classList.remove('modal__input_type_valid')
+  }
+
+  if (inputStatus.classList.contains('modal__input_type_valid')) {
+    inputStatus.classList.remove('modal__input_type_valid')
+  }
+
+
   if (inputTitle.classList.contains('modal__input_type_error')){
-    inputTitle.classList.remove('modal__input_type_error')
+    inputTitle.classList.remove('modal__input_type_error');
+    addCardModal.querySelector(`#modal__input-title-error`).textContent = '';
   }
   if (inputUrl.classList.contains('modal__input_type_error')){
-    inputUrl.classList.remove('modal__input_type_error')
+    inputUrl.classList.remove('modal__input_type_error');
+    addCardModal.querySelector(`#modal__input-url-error`).textContent = '';
   }
 
+  if (inputName.classList.contains('modal__input_type_error')){
+    inputName.classList.remove('modal__input_type_error');
+    editProfileModal.querySelector(`#modal__input-name-error`).textContent = '';
+  }
+  if (inputStatus.classList.contains('modal__input_type_error')){
+    inputStatus.classList.remove('modal__input_type_error');
+    editProfileModal.querySelector(`#modal__input-status-error`).textContent = '';
+  }
 
-
-
-  formAddCard.reset()
   subButtonForAddCard.disabled = true;
   subButtonForAddCard.classList.remove('modal__btn-undisabled')
 
-  addCardModal.querySelector(`#modal__input-title-error`).textContent = '';
-  addCardModal.querySelector(`#modal__input-url-error`).textContent = '';
-
-
 }
+//-----------------------------------------------------------
 
 
-//Функция сохранения модалки при добавлении карточки
+//Добавление информации
+
+
+//Карточка. Сохранение при добавлении карточки
 function profileAddCardHandler(e) {
   e.preventDefault();
   renderCard({name:inputTitle.value, link:inputUrl.value})
-
-  formAddCard.reset()
-
-  subButtonForAddCard.classList.remove('modal__btn-undisabled')
-  subButtonForAddCard.disabled = true;
-  toggleModal(addCardModal)
-
-
+  closeModalWindow(addCardModal);
 };
+//-----------------------------------------------------------
+
+//Профиль. Сохранения модалки при редактировании профиля
+function profileEditHandler(e) {
+  e.preventDefault();
+  profileName.textContent = inputName.value;
+  profileText.textContent = inputStatus.value;
+  closeModalWindow(editProfileModal);
+};
+//-----------------------------------------------------------
 
 
-//Открытие и закрытие модалки с добавлением карточки
+// Постоянные обработчики на кнопках
+
+// Добавлене карточки. Слушатель кнопок открытия  закрытия
 openAddCardModalButton.addEventListener('click', () => {
-
   if (!addCardModal.classList.contains('modal_is-open')) {
     subButtonForAddCard.classList.add(object.inactiveButtonClass);
   }
-
-  toggleModal(addCardModal)
-
+  openModalWindow(addCardModal);
 });
-
-//Функция удаления стиля дисбаленной кнопки у карточки
-function removeDisableFromCardSubmitButton() {
-  if (addCardModal.classList.contains('modal_is-open')) {
-    subButtonForAddCard.classList.remove(object.inactiveButtonClass);
-  }
-
-}
 
 addCardCloseModalButton.addEventListener('click', () => {
-  toggleModal(addCardModal)
+  closeModalWindow(addCardModal);
 });
+//-----------------------------------------------------------
 
-//Открытие и закрытие модалки с редактированием профиля
+//Редактирование профиля. Слушатель кнопки редактирования профиля
 openEditProfileModalButton.addEventListener('click', () => {
-  toggleProfileModal(editProfileModal);
+  openModalWindow(editProfileModal);
+
+  makeSubmitActive(editProfileModal);
 
 });
 
-editProfileCloseModalButton.addEventListener('click', () => {
-  toggleProfileModal(editProfileModal)
-
+closeEditProfileModalButton.addEventListener('click', () => {
+  closeModalWindow(editProfileModal);
 });
+//-----------------------------------------------------------
 
-//Закрытие модалки
-imageShowCloseModalButton.addEventListener('click', () => {
-  toggleModal(imageShowModal)
-
+//Показ фотографии. Закрытие от кнопки "Крестик"
+//Открывается хендлером handleImageClick
+closeImageShowModalButton.addEventListener('click', () => {
+  closeModalWindow(imageShowModal)
 });
+//-----------------------------------------------------------
 
-//Обработчики сохранения модалок
+
+//Обработчики сохранения модалок нажатием на кнопку Submit
 formEditProfileModel.addEventListener('submit', profileEditHandler)
 formAddCard.addEventListener('submit', profileAddCardHandler)
+//-----------------------------------------------------------
+
+
+
 
 //Карточки по умолчанию//
 const initialCards = [
@@ -302,10 +234,7 @@ function handleLikeClick(e){
 function handleImageClick(e){
   e.preventDefault();
   showImage(e);
-  toggleModal(imageShowModal);
-  //Используем функцию для закрытия при клике на оверлей
-
-
+  openModalWindow(imageShowModal);
 };
 
 
@@ -353,8 +282,8 @@ function renderCard(data) {
   cardsListElement.prepend(createCard(data))
 }
 
-//Функция для пробега по масиву первоначальных карточек
+//Функция для пробега по массиву первоначальных карточек
 initialCards.forEach(data => {
   renderCard(data);
-})
+});
 
