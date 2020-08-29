@@ -1,3 +1,7 @@
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+import { object } from './Constants.js';
+
 //Открытие модалок
 const openAddCardModalButton = document.querySelector(".profile__add-button");
 const openEditProfileModalButton = document.querySelector('.profile__edit-button');
@@ -128,10 +132,12 @@ function cardCheckValidStyle(){
 //Добавление информации
 
 
-//Карточка. Сохранение при добавлении карточки
+//Сохранение при добавлении карточки
 function profileAddCardHandler(e) {
   e.preventDefault();
-  renderCard({name:inputTitle.value, link:inputUrl.value})
+  const new_card_for_generate = new Card({name:inputTitle.value, link:inputUrl.value});
+  const new_cardElement = new_card_for_generate.generateCard();
+  cardsListElement.prepend(new_cardElement);
   closeModalWindow(addCardModal);
 };
 //-----------------------------------------------------------
@@ -145,9 +151,6 @@ function profileEditHandler(e) {
 };
 //-----------------------------------------------------------
 
-
-// Постоянные обработчики на кнопках
-
 // Добавлене карточки. Слушатель кнопок открытия  закрытия
 openAddCardModalButton.addEventListener('click', () => {
   if (!addCardModal.classList.contains('modal_is-open')) {
@@ -156,6 +159,9 @@ openAddCardModalButton.addEventListener('click', () => {
   openModalWindow(addCardModal);
 });
 
+
+
+// Закрывается от модалки
 addCardCloseModalButton.addEventListener('click', () => {
   closeModalWindow(addCardModal);
 });
@@ -174,21 +180,11 @@ closeEditProfileModalButton.addEventListener('click', () => {
 });
 //-----------------------------------------------------------
 
-//Показ фотографии. Закрытие от кнопки "Крестик"
-//Открывается хендлером handleImageClick
-closeImageShowModalButton.addEventListener('click', () => {
-  closeModalWindow(imageShowModal)
-});
-//-----------------------------------------------------------
-
 
 //Обработчики сохранения модалок нажатием на кнопку Submit
 formEditProfileModel.addEventListener('submit', profileEditHandler)
 formAddCard.addEventListener('submit', profileAddCardHandler)
 //-----------------------------------------------------------
-
-
-
 
 //Карточки по умолчанию//
 const initialCards = [
@@ -218,72 +214,18 @@ const initialCards = [
   }
 ];
 
-//Переменные для вставки карточек
 const cardsListElement = document.querySelector('.elements');
 
-function handleDeleteClick(e){
-  e.preventDefault();
-  e.target.closest('.element').remove();
-};
-
-function handleLikeClick(e){
-  e.preventDefault();
-  e.target.classList.toggle('element__heart_black');
-};
-
-function handleImageClick(e){
-  e.preventDefault();
-  showImage(e);
-  openModalWindow(imageShowModal);
-};
-
-
-function showImage(e) {
-  e.preventDefault();
-  imageInModal.src = e.target.src;
-  imageInModal.alt = e.target.closest('.element').querySelector('.element__title').textContent;
-  imageShowModal.querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
-
-
-};
-
-//Функция для добавления карточек
-function createCard(data) {
-  const elementTemplate = document.querySelector('.element-template');
-  const card = elementTemplate.content.cloneNode(true);
-  const cardLikeButton = card.querySelector('.element__heart');
-  const cardDeleteButton = card.querySelector('.element__delete');
-  const cardImage = card.querySelector('.element__image');
-  const cardImageSource = card.querySelector('img');
-
-  cardImageSource.src = data.link;
-  cardImageSource.alt = data.name;
-  card.querySelector('.element__title').textContent = data.name;
-
-    //Кнопки на карточках
-  cardLikeButton.addEventListener('click', (e) => {
-    handleLikeClick(e);
-  });
-
-  cardDeleteButton.addEventListener('click', (e) => {
-    handleDeleteClick(e);
-  });
-
-  cardImage.addEventListener('click', (e) => {
-    handleImageClick(e);
-  })
-
-  return card;
-}
-
-
-//Добавление карточки
-function renderCard(data) {
-  cardsListElement.prepend(createCard(data))
-}
-
-//Функция для пробега по массиву первоначальных карточек
-initialCards.forEach(data => {
-  renderCard(data);
+initialCards.forEach((item) => {
+  const card_for_generate = new Card(item);
+  const cardElement = card_for_generate.generateCard(item);
+  cardsListElement.prepend(cardElement);
 });
 
+const profile_form = Array.from(document.querySelectorAll(object.formSelector))[0];
+const card_form = Array.from(document.querySelectorAll(object.formSelector))[1];
+const getValidationProfile = new FormValidator(profile_form,object);
+getValidationProfile.enableValidation();
+
+const getValidationCard = new FormValidator(card_form,object);
+getValidationCard.enableValidation();
