@@ -5,13 +5,12 @@ export class Card {
   }
 
   _getTemplate() {
-    const cardElement =document.querySelector('.element-template').content.cloneNode(true);
+    const cardElement = document.querySelector('.element-template').content.cloneNode(true);
 
     return cardElement;
   }
 
   _handleLikeClick(e){
-    e.preventDefault();
     e.target.classList.toggle('element__heart_black');
   };
 

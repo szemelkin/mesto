@@ -1,6 +1,11 @@
+//ПОДКЛЮЧАЕМ ВНЕШНИЕ ФАЙЛЫ________________________________________
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { object } from './Constants.js';
+//________________________________________________________________
+
+
+// ОБЪЯВЛЯЕМ ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ___________________________________
 
 //Открытие модалок
 const openAddCardModalButton = document.querySelector(".profile__add-button");
@@ -34,21 +39,41 @@ const closeImageShowModalButton = imageShowModal.querySelector('.modal__close-bu
 //Картиник
 const imageInModal = imageShowModal.querySelector('img');
 const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
-//-----------------------------------------------------------
 
-// Открытие и закрытие модалки
-const closeModalWindow = (modalWindow) => {
-  // удаляем событие keydown
-  document.removeEventListener('keydown', handleEscUp);
-  document.removeEventListener('click', handleClickAroundModalWindow);
-  // скрываем попап
-  modalWindow.classList.remove('modal_is-open');
-  // сбрасываем формы
-  modalWindow.querySelector('.modal__form').reset();
-  // сбасываем валидацию
-  cardCheckValidStyle()
-};
-//----------------------------------------
+//Карточки по умолчанию//
+const initialCards = [
+  {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+const cardsListElement = document.querySelector('.elements');
+
+//_________________________________________________________________
+
+
+//ОБЪЯВЛЯЕМ ФУНКЦИИ________________________________________________
 
 //Длаем активной кнопку Submit
 const makeSubmitActive = (modalWindow) => {
@@ -57,33 +82,6 @@ const makeSubmitActive = (modalWindow) => {
   activePopup.disabled = false;
   activePopup.classList.remove('modal__btn-disabled');
 }
-
-
-const openModalWindow = (modalWindow) => {
-  // добавляем событие keydown
-  document.addEventListener('keydown', handleEscUp);
-  document.addEventListener('click', handleClickAroundModalWindow);
-  // открываем модалку
-  modalWindow.classList.add('modal_is-open');
-}
-//----------------------------------------
-
-// Слушатели Esc, клика и Enter
-const handleEscUp = (evt) => {
-  const activePopup = document.querySelector('.modal_is-open');
-  if (evt.key === 'Escape') {
-    closeModalWindow(activePopup);
-  };
-};
-
-const handleClickAroundModalWindow = (evt) => {
-  const activePopup = document.querySelector('.modal_is-open');
-  if (evt.target.classList.contains('modal_is-open')) {
-    closeModalWindow(activePopup);
-  };
-};
-//-----------------------------------------------------------
-
 
 // Убираем стили валидации
 function cardCheckValidStyle(){
@@ -150,6 +148,27 @@ function profileEditHandler(e) {
   closeModalWindow(editProfileModal);
 };
 //-----------------------------------------------------------
+//________________________________________________________________
+
+
+
+//ВЕШАЕМ СОБЫТИЯ___________________________________________________
+
+// Слушатели Esc, клика и Enter
+const handleEscUp = (evt) => {
+  const activePopup = document.querySelector('.modal_is-open');
+  if (evt.key === 'Escape') {
+    closeModalWindow(activePopup);
+  };
+};
+
+const handleClickAroundModalWindow = (evt) => {
+  const activePopup = document.querySelector('.modal_is-open');
+  if (evt.target.classList.contains('modal_is-open')) {
+    closeModalWindow(activePopup);
+  };
+};
+//-----------------------------------------------------------
 
 // Добавлене карточки. Слушатель кнопок открытия  закрытия
 openAddCardModalButton.addEventListener('click', () => {
@@ -186,35 +205,34 @@ formEditProfileModel.addEventListener('submit', profileEditHandler)
 formAddCard.addEventListener('submit', profileAddCardHandler)
 //-----------------------------------------------------------
 
-//Карточки по умолчанию//
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+// Открытие и закрытие модалки
+const closeModalWindow = (modalWindow) => {
+  // удаляем событие keydown
+  document.removeEventListener('keyup', handleEscUp);
+  document.removeEventListener('click', handleClickAroundModalWindow);
+  // скрываем попап
+  modalWindow.classList.remove('modal_is-open');
+  // сбрасываем формы
+  modalWindow.querySelector('.modal__form').reset();
+  // сбасываем валидацию
+  cardCheckValidStyle()
+};
+//----------------------------------------
 
-const cardsListElement = document.querySelector('.elements');
+
+const openModalWindow = (modalWindow) => {
+  // добавляем событие keydown
+  document.addEventListener('keyup', handleEscUp);
+  document.addEventListener('click', handleClickAroundModalWindow);
+  // открываем модалку
+  modalWindow.classList.add('modal_is-open');
+}
+//----------------------------------------
+//_________________________________________________________________
+
+
+
+//ГЕНЕРИРУЕМ КАРТОЧКИ
 
 initialCards.forEach((item) => {
   const card_for_generate = new Card(item);
@@ -224,10 +242,11 @@ initialCards.forEach((item) => {
 
 const profile_form = Array.from(document.querySelectorAll(object.formSelector))[0];
 const card_form = Array.from(document.querySelectorAll(object.formSelector))[1];
+
 const getValidationProfile = new FormValidator(profile_form,object);
 getValidationProfile.enableValidation();
 
 const getValidationCard = new FormValidator(card_form,object);
 getValidationCard.enableValidation();
 
-// ldkjgdkfg
+//_________________________________________________________________

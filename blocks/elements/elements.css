@@ -10,6 +10,11 @@
 
 }
 
+.elements::after {
+  content: "";
+  /* padding-right: 18px; */
+  flex: auto;
+}
 
 @media (max-width: 910px) {
 

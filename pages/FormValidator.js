@@ -1,4 +1,3 @@
-import { object } from './Constants.js';
 
 export class FormValidator{
 
@@ -8,10 +7,10 @@ export class FormValidator{
     this._inputSelector = parameters.inputSelector;
     this._inputValidClass = parameters.inputValidClass;
     this._inputErrorClass =parameters.inputErrorClass;
-    this._submitButtonSelector =parameters.submitButtonSelector;
+    this._submitButtonSelector = parameters.submitButtonSelector;
     this._inactiveButtonClass = parameters.inactiveButtonClass;
-    this._activeButtonClass =parameters.activeButtonClass;
-    this._errorClass =parameters.errorClass;
+    this._activeButtonClass = parameters.activeButtonClass;
+    this._errorClass = parameters.errorClass;
   }
 
    //Обработчик форм
@@ -22,15 +21,15 @@ export class FormValidator{
     // Найдем все инпуты внутри формы
     this._inputs = Array.from(this._formElement.querySelectorAll(this._inputSelector));
     this._buttonSubmit = this._formElement.querySelector(this._submitButtonSelector);
-    this._inputsHandler(this._inputs,this._buttonSubmit, this._inputValidClass, this._inputErrorClass, this._errorClass, this._formElement,this._activeButtonClass,this._inactiveButtonClass)
+    this._inputsHandler()
   }
 
 
   _inputsHandler() {
     this._inputs.forEach((inputElement)=>{
       inputElement.addEventListener('input',()=>{
-        this._buttonValidation(this._inputs,this._buttonSubmit,this._activeButtonClass,this._inactiveButtonClass);
-        this._inputValidation(inputElement, this._inputValidClass, this._inputErrorClass, this._errorClass);
+        this._buttonValidation(this._inputs,this._buttonSubmit);
+        this._inputValidation(inputElement);
       });
     });
   };
