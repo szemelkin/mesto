@@ -1,12 +1,13 @@
 export class Card {
-  constructor(data) {
+  constructor(cardElement, data) {
+    this._cardElement = cardElement;
     this._link = data.link;
     this._title = data.name;
+
   }
 
   _getTemplate() {
-    const cardElement = document.querySelector('.element-template').content.cloneNode(true);
-
+    const cardElement = this._cardElement.content.cloneNode(true);
     return cardElement;
   }
 
@@ -45,9 +46,9 @@ export class Card {
   _showImage = (e) => {
     e.preventDefault();
 
-    console.log(e.target.src)
-    console.log(this._getTemplate().querySelector('.element__image').src)
-    console.log(this._getTemplate())
+    // console.log(e.target.src)
+    // console.log(this._getTemplate().querySelector('.element__image').src)
+    // console.log(this._getTemplate())
 
     document.querySelector('.modal_type_image').querySelector('img').src =e.target.src;
     document.querySelector('.modal_type_image').querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
@@ -55,55 +56,13 @@ export class Card {
     return this._element
   };
 
-  _openModalWindow = (modalWindow) => {
-    document.querySelector('.modal_type_image').querySelector('.modal__close-button').addEventListener('click', () => {
-      this._closeModalWindow(document.querySelector('.modal_type_image'))
-    });
-    // добавляем событие keydown
-    document.addEventListener('keydown', this._handleEscUp);
-    document.addEventListener('click', this._handleClickAroundModalWindow);
-    // открываем модалку
-    modalWindow.classList.add('modal_is-open');
-  }
 
+  _setEventListeners() {
 
-
-
-  // Открытие и закрытие модалки
-  _closeModalWindow = (modalWindow) => {
-  // удаляем событие keydown
-    document.removeEventListener('keydown', this._handleEscUp);
-    document.removeEventListener('click', this._handleClickAroundModalWindow);
-    // скрываем попап
-    modalWindow.classList.remove('modal_is-open');
-    // сбрасываем формы
-    // modalWindow.querySelector('.modal__form').reset();
-    // сбасываем валидацию
-    // cardCheckValidStyle()
-  };
-//----------------------------------------
-
-  generateCard = () => {
-
-    this._element = this._getTemplate();
-    this._element.querySelector('.element__image').src = this._link;
-    this._element.querySelector('.element__title').textContent = this._title;
-
-    // console.log(this._element)
-    //Навешиваем слушателей
-    // const elementTemplate = document.querySelector('.element-template');
-    // const card = this._element.content.cloneNode(true);
     const cardLikeButton = this._element.querySelector('.element__heart');
     const cardDeleteButton = this._element.querySelector('.element__delete');
     const cardImage = this._element.querySelector('.element__image');
-    const cardImageSource = this._element.querySelector('img');
 
-
-    // // cardImageSource.src = data.link;
-    cardImageSource.alt = this._title;
-    // // card.querySelector('.element__title').textContent = data.name;
-
-    // //   //Кнопки на карточках
     cardLikeButton.addEventListener('click', (e) => {
       this._handleLikeClick(e);
     });
@@ -115,7 +74,28 @@ export class Card {
     cardImage.addEventListener('click', (e) => {
       this._handleImageClick(e);
     })
+  }
 
+  generateCard = () => {
+
+    this._element = this._getTemplate();
+    this._element.querySelector('.element__image').src = this._link;
+    this._element.querySelector('.element__title').textContent = this._title;
+
+    //Навешиваем слушателей
+    // const elementTemplate = document.querySelector('.element-template');
+    // const card = this._element.content.cloneNode(true);
+
+    const cardImageSource = this._element.querySelector('img');
+
+
+    // // cardImageSource.src = data.link;
+    cardImageSource.alt = this._title;
+    // // card.querySelector('.element__title').textContent = data.name;
+
+    // //   //Кнопки на карточках
+
+    this._setEventListeners()
     return this._element;
   }
 }

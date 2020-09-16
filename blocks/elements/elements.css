@@ -8,17 +8,11 @@
   padding-top: 51px;
 
 
+
 }
 
 .elements::after {
-  content: "";
-  /* padding-right: 18px; */
-  flex: auto;
+  content: '';
+  width: 282px;
 }
 
-@media (max-width: 910px) {
-
-  .elements {
-    justify-content: space-evenly;
-  }
-}
