@@ -16,65 +16,6 @@ export class Card {
     return cardElement;
   }
 
-  // _handleLikeClick(e){
-  //   e.target.classList.toggle('element__heart_black');
-  // };
-
-
-  // _handleDeleteClick(e){
-  //   e.preventDefault();
-  //   e.target.closest('.element').remove();
-  // };
-
-  // _handleImageClick(e){
-  //   e.preventDefault();
-  //   document.querySelector('.modal_type_image').querySelector('img').src =e.target.src;
-  //   document.querySelector('.modal_type_image').querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
-
-  //   // this._showImage(e);
-  //   openModalWindow(document.querySelector('.modal_type_image'));
-  // };
-
-  // // Слушатели Esc, клика и Enter
-  // _handleEscUp = (evt) => {
-  //   const activePopup = document.querySelector('.modal_is-open');
-  //   if (evt.key === 'Escape') {
-  //     this._closeModalWindow(activePopup);
-  //   };
-  // };
-
-
-  // Открытие и закрытие модалки
-
-  // _closeModalWindow = (modalWindow) => {
-  // // удаляем событие keydown
-  //   document.removeEventListener('keydown', this._handleEscUp);
-  //   document.removeEventListener('click', this._handleClickAroundModalWindow);
-  //   // скрываем попап
-  //   modalWindow.classList.remove('modal_is-open');
-  //   // сбрасываем формы
-  //   // modalWindow.querySelector('.modal__form').reset();
-  //   // сбасываем валидацию
-  //   // cardCheckValidStyle()
-  // };
-//----------------------------------------
-
-
-
-  // _showImage = (e) => {
-  //   e.preventDefault();
-
-  //   // console.log(e.target.src)
-  //   // console.log(this._getTemplate().querySelector('.element__image').src)
-  //   // console.log(this._getTemplate())
-
-  //   document.querySelector('.modal_type_image').querySelector('img').src =e.target.src;
-  //   document.querySelector('.modal_type_image').querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
-
-  //   return this._element
-  // };
-
-
   _setEventListeners() {
 
     const cardLikeButton = this._element.querySelector('.element__heart');
@@ -93,7 +34,6 @@ export class Card {
     });
 
     object.closeImageShowModalButton.addEventListener('click', () => {
-      console.log( object.closeImageShowModalButton)
       closeModalWindow(object.imageShowModal);
     });
 
