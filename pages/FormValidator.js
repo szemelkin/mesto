@@ -38,7 +38,6 @@ export class FormValidator{
       inputElement.addEventListener('input',()=>{
         this._buttonValidation(this._inputs,this._buttonSubmit);
         this._inputValidation(inputElement);
-        // this._cardCheckValidStyle()
 
       });
     });

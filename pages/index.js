@@ -2,6 +2,7 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { object } from './Constants.js';
+import {openModalWindow, closeModalWindow} from './Utils.js';
 //________________________________________________________________
 
 
@@ -25,6 +26,10 @@ function profileAddCardHandler(e) {
   const new_cardElement = new_card_for_generate.generateCard();
   object.cardsListElement.prepend(new_cardElement);
   closeModalWindow(object.addCardModal);
+
+  const cancelValidationCard = new FormValidator(object.addCardModal,object);
+  cancelValidationCard.cardCheckValidStyle();
+  object.addCardModal.querySelector('.modal__form').reset();
 };
 //-----------------------------------------------------------
 
@@ -32,45 +37,12 @@ function profileAddCardHandler(e) {
 //Профиль. Сохранения модалки при редактировании профиля
 function profileEditHandler(e) {
   e.preventDefault();
-
-
   object.profileName.textContent = object.inputName.value;
   object.profileText.textContent = object.inputStatus.value;
   closeModalWindow(object.editProfileModal);
 };
 //________________________________________________________________
 
-
-// Открытие и закрытие модалки
-const closeModalWindow = (modalWindow) => {
-  // удаляем событие keydown
-  document.removeEventListener('keyup', handleEscUp);
-  document.removeEventListener('click', handleClickAroundModalWindow);
-  // скрываем попап
-  modalWindow.classList.remove('modal_is-open');
-  // сбрасываем формы
-  modalWindow.querySelector('.modal__form').reset();
-  // сбасываем валидацию
-  const cancelValidationCard = new FormValidator(modalWindow,object);
-  cancelValidationCard.cardCheckValidStyle();
-};
-//----------------------------------------
-
-
-// Слушатели Esc, клика и Enter
-const handleEscUp = (evt) => {
-  const activePopup = document.querySelector('.modal_is-open');
-  if (evt.key === 'Escape') {
-    closeModalWindow(activePopup);
-  };
-};
-
-const handleClickAroundModalWindow = (evt) => {
-  const activePopup = document.querySelector('.modal_is-open');
-  if (evt.target.classList.contains('modal_is-open')) {
-    closeModalWindow(activePopup);
-  };
-};
 
 
 //ВЕШАЕМ СОБЫТИЯ___________________________________________________
@@ -81,36 +53,37 @@ object.openAddCardModalButton.addEventListener('click', () => {
     object.subButtonForAddCard.classList.add(object.inactiveButtonClass);
   }
   openModalWindow(object.addCardModal);
+  object.addCardModal.querySelector('.modal__form').reset();
+  const cancelValidationCard = new FormValidator(object.editProfileModal,object);
+  cancelValidationCard.cardCheckValidStyle();
 });
-
-// Открываем модалку и вешаем события на закрытие
-const openModalWindow = (modalWindow) => {
-  // добавляем событие keydown
-  document.addEventListener('keyup', handleEscUp);
-  document.addEventListener('click', handleClickAroundModalWindow);
-
-  object.inputName.value = 'Жак-Ив Кусто';
-  object.inputStatus.value = 'Исследователь океана';
-
-  // открываем модалку
-  modalWindow.classList.add('modal_is-open');
-}
 
 
 // Закрываем модалку при добавлении карточки при нажатии на крестик
 object.addCardCloseModalButton.addEventListener('click', () => {
   closeModalWindow(object.addCardModal);
+  object.addCardModal.querySelector('.modal__form').reset();
+  const cancelValidationCard = new FormValidator(object.addCardModal,object);
+  cancelValidationCard.cardCheckValidStyle();
+
 });
 //-----------------------------------------------------------
 
 //Редактирование профиля. Слушатель кнопки редактирования профиля
 object.openEditProfileModalButton.addEventListener('click', () => {
   openModalWindow(object.editProfileModal);
+  object.inputName.value = 'Жак-Ив Кусто';
+  object.inputStatus.value = 'Исследователь океана';
   makeSubmitActive(object.editProfileModal);
+  const cancelValidationCard = new FormValidator(object.editProfileModal,object);
+  cancelValidationCard.cardCheckValidStyle();
 });
 
 object.closeEditProfileModalButton.addEventListener('click', () => {
   closeModalWindow(object.editProfileModal);
+  object.editProfileModal.querySelector('.modal__form').reset();
+  const cancelValidationCard = new FormValidator(object.editProfileModal,object);
+  cancelValidationCard.cardCheckValidStyle();
 });
 //-----------------------------------------------------------
 

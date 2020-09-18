@@ -1,8 +1,13 @@
+import {openModalWindow, closeModalWindow} from './Utils.js';
+import { object } from './Constants.js';
+
 export class Card {
   constructor(cardElement, data) {
     this._cardElement = cardElement;
     this._link = data.link;
     this._title = data.name;
+    this._openModalWindow = openModalWindow;
+    this._closeModalWindow = closeModalWindow
 
   }
 
@@ -11,50 +16,63 @@ export class Card {
     return cardElement;
   }
 
-  _handleLikeClick(e){
-    e.target.classList.toggle('element__heart_black');
-  };
+  // _handleLikeClick(e){
+  //   e.target.classList.toggle('element__heart_black');
+  // };
 
 
-  _handleDeleteClick(e){
-    e.preventDefault();
-    e.target.closest('.element').remove();
-  };
+  // _handleDeleteClick(e){
+  //   e.preventDefault();
+  //   e.target.closest('.element').remove();
+  // };
 
-  _handleImageClick(e){
-    e.preventDefault();
-    this._showImage(e);
-    this._openModalWindow(document.querySelector('.modal_type_image'));
-  };
+  // _handleImageClick(e){
+  //   e.preventDefault();
+  //   document.querySelector('.modal_type_image').querySelector('img').src =e.target.src;
+  //   document.querySelector('.modal_type_image').querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
 
-  // Слушатели Esc, клика и Enter
-  _handleEscUp = (evt) => {
-    const activePopup = document.querySelector('.modal_is-open');
-    if (evt.key === 'Escape') {
-      this._closeModalWindow(activePopup);
-    };
-  };
+  //   // this._showImage(e);
+  //   openModalWindow(document.querySelector('.modal_type_image'));
+  // };
 
-  _handleClickAroundModalWindow = (evt) => {
-    const activePopup = document.querySelector('.modal_is-open');
-    if (evt.target.classList.contains('modal_is-open')) {
-      this._closeModalWindow(activePopup);
-    };
-  };
+  // // Слушатели Esc, клика и Enter
+  // _handleEscUp = (evt) => {
+  //   const activePopup = document.querySelector('.modal_is-open');
+  //   if (evt.key === 'Escape') {
+  //     this._closeModalWindow(activePopup);
+  //   };
+  // };
 
 
-  _showImage = (e) => {
-    e.preventDefault();
+  // Открытие и закрытие модалки
 
-    // console.log(e.target.src)
-    // console.log(this._getTemplate().querySelector('.element__image').src)
-    // console.log(this._getTemplate())
+  // _closeModalWindow = (modalWindow) => {
+  // // удаляем событие keydown
+  //   document.removeEventListener('keydown', this._handleEscUp);
+  //   document.removeEventListener('click', this._handleClickAroundModalWindow);
+  //   // скрываем попап
+  //   modalWindow.classList.remove('modal_is-open');
+  //   // сбрасываем формы
+  //   // modalWindow.querySelector('.modal__form').reset();
+  //   // сбасываем валидацию
+  //   // cardCheckValidStyle()
+  // };
+//----------------------------------------
 
-    document.querySelector('.modal_type_image').querySelector('img').src =e.target.src;
-    document.querySelector('.modal_type_image').querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
 
-    return this._element
-  };
+
+  // _showImage = (e) => {
+  //   e.preventDefault();
+
+  //   // console.log(e.target.src)
+  //   // console.log(this._getTemplate().querySelector('.element__image').src)
+  //   // console.log(this._getTemplate())
+
+  //   document.querySelector('.modal_type_image').querySelector('img').src =e.target.src;
+  //   document.querySelector('.modal_type_image').querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
+
+  //   return this._element
+  // };
 
 
   _setEventListeners() {
@@ -64,15 +82,33 @@ export class Card {
     const cardImage = this._element.querySelector('.element__image');
 
     cardLikeButton.addEventListener('click', (e) => {
-      this._handleLikeClick(e);
+      // this._handleLikeClick(e);
+      e.target.classList.toggle('element__heart_black');
     });
 
     cardDeleteButton.addEventListener('click', (e) => {
-      this._handleDeleteClick(e);
+      // this._handleDeleteClick(e);
+      e.preventDefault();
+      e.target.closest('.element').remove();
+    });
+
+    object.closeImageShowModalButton.addEventListener('click', () => {
+      console.log( object.closeImageShowModalButton)
+      closeModalWindow(object.imageShowModal);
+    });
+
+    document.addEventListener('click', (evt) => {
+      const activePopup = document.querySelector('.modal_is-open');
+      if (evt.target.classList.contains('modal_is-open')) {
+        closeModalWindow(activePopup);
+      };
     });
 
     cardImage.addEventListener('click', (e) => {
-      this._handleImageClick(e);
+      e.preventDefault();
+      object.imageShowModal.querySelector('img').src =e.target.src;
+      object.imageShowModal.querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
+      openModalWindow(object.imageShowModal);
     })
   }
 
@@ -86,11 +122,11 @@ export class Card {
     // const elementTemplate = document.querySelector('.element-template');
     // const card = this._element.content.cloneNode(true);
 
-    const cardImageSource = this._element.querySelector('img');
+    // const cardImageSource = this._element.querySelector('img');
 
 
-    // // cardImageSource.src = data.link;
-    cardImageSource.alt = this._title;
+    // // // cardImageSource.src = data.link;
+    // cardImageSource.alt = this._title;
     // // card.querySelector('.element__title').textContent = data.name;
 
     // //   //Кнопки на карточках
