@@ -11,7 +11,6 @@ import { openModalWindow, closeModalWindow } from './Utils.js';
 
 //Сохранение при добавлении карточки
 function profileAddCardHandler(e) {
-  e.preventDefault();
 
   const newCardForGenerate = new Card(object.cardTemplate,{name:object.inputTitle.value, link:object.inputUrl.value});
 
@@ -28,7 +27,7 @@ function profileAddCardHandler(e) {
 
 //Профиль. Сохранения модалки при редактировании профиля
 function profileEditHandler(e) {
-  e.preventDefault();
+
   object.profileName.textContent = object.inputName.value;
   object.profileText.textContent = object.inputStatus.value;
   closeModalWindow(object.editProfileModal);
