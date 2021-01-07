@@ -1,4 +1,6 @@
-import {openModalWindow} from './Utils.js';
+// import {openModalWindow} from './Utils.js';
+import { Popup } from './Popup.js'
+import { PopupWithImage } from './PopupWithImage.js'
 import { object, validationConfig } from './Constants.js';
 
 export class Card {
@@ -29,23 +31,19 @@ export class Card {
 
 
     cardImage.addEventListener('click', (e) => {
-      object.imageShowModal.querySelector('img').src =e.target.src;
-      object.imageShowModal.querySelector('h3').textContent = e.target.closest('.element').querySelector('.element__title').textContent;
-      openModalWindow(object.imageShowModal);
-    })
+      const openModalWindowCard = new PopupWithImage(object.imageShowModal, e);
+      openModalWindowCard.openModalWindow();
+      })
   }
 
   generateCard = () => {
 
+
     this._element = this._getTemplate();
     this._element.querySelector('.element__image').src = this._link;
     this._element.querySelector('.element__title').textContent = this._title;
-    // //   //Кнопки на карточках
 
     this._setEventListeners()
     return this._element;
   }
 }
-
-
-

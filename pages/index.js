@@ -2,110 +2,69 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import { object, validationConfig } from './Constants.js';
-import { openModalWindow, closeModalWindow } from './Utils.js';
-//________________________________________________________________
+import { Section } from './Section.js';
+import { PopupWithForm } from './PopupWithForm.js';
+import { UserInfo } from './UserInfo.js';
 
 
-//ОБЪЯВЛЯЕМ ФУНКЦИИ________________________________________________
-
-
-//Сохранение при добавлении карточки
-function profileAddCardHandler(e) {
-
-  const newCardForGenerate = new Card(object.cardTemplate,{name:object.inputTitle.value, link:object.inputUrl.value});
-
-  const newCardElement = newCardForGenerate.generateCard();
-
-  object.addCardModal.querySelector('.modal__form').reset();
-
-  object.cardsListElement.prepend(newCardElement);
-  closeModalWindow(object.addCardModal);
-
-};
-//-----------------------------------------------------------
-
-
-//Профиль. Сохранения модалки при редактировании профиля
-function profileEditHandler(e) {
-
-  object.profileName.textContent = object.inputName.value;
-  object.profileText.textContent = object.inputStatus.value;
-  closeModalWindow(object.editProfileModal);
-
-};
-//________________________________________________________________
-
-
-
-//ВЕШАЕМ СОБЫТИЯ___________________________________________________
-
-// Добавлене карточки. Слушатель кнопок открытия  закрытия
-object.openAddCardModalButton.addEventListener('click', () => {
-  if (!object.addCardModal.classList.contains('modal_is-open')) {
-    object.subButtonForAddCard.classList.add(object.inactiveButtonClass);
+//Редактирование профиля.
+const openEditProfileModalWindow = new PopupWithForm(
+  object.editProfileModal,
+  {callback: (editProfileData) => {
+    const userInfo = new UserInfo();
+    userInfo.setUserInfo(editProfileData['modal__input-name'],editProfileData['modal__input-status'])
   }
+  }
+);
 
-  const makeSubmitButtonDisabled = new FormValidator(object.addCardModal,validationConfig);
-  makeSubmitButtonDisabled.makeSubmitDisabled();
-
-  openModalWindow(object.addCardModal);
-  object.addCardModal.querySelector('.modal__form').reset();
-});
-
-
-// Закрываем модалку при добавлении карточки при нажатии на крестик
-object.closeAddCardModalButton.addEventListener('click', () => {
-  closeModalWindow(object.addCardModal);
-  object.addCardModal.querySelector('.modal__form').reset();
-
-  const cancelValidation = new FormValidator(object.addCardModal,validationConfig);
-  cancelValidation.resetValidationErrors();
-});
-//-----------------------------------------------------------
-
-//Редактирование профиля. Слушатель кнопки редактирования профиля
+//Слушатель кнопки "Редактирования профиля"
 object.openEditProfileModalButton.addEventListener('click', () => {
-  openModalWindow(object.editProfileModal);
-  object.inputName.value = object.profileName.textContent;
-  object.inputStatus.value = object.profileText.textContent;
-  object.addCardModal.querySelector('.modal__form').reset();
-
+  openEditProfileModalWindow.openModalWindow();
+  const userInfo = new UserInfo();
+  object.editProfileModal.querySelector('.modal__input_type_name').value = userInfo.getUserInfo().name
+  object.editProfileModal.querySelector('.modal__input_type_status').value = userInfo.getUserInfo().status
 });
+openEditProfileModalWindow.submitHandler();
 
-object.closeEditProfileModalButton.addEventListener('click', () => {
-  closeModalWindow(object.editProfileModal);
-  object.editProfileModal.querySelector('.modal__form').reset();
+// //-----------------------------------
 
-  const cancelValidation = new FormValidator(object.editProfileModal,validationConfig);
-  cancelValidation.resetValidationErrors();
+// //Добавление карточки
+const openAddCardModalWindow = new PopupWithForm(
+  object.addCardModal,
+  {callback: (addCardData) => {
+    const newCardForGenerate = new Card(object.cardTemplate,{name:addCardData['modal__input-title'],link: addCardData['modal__input-url']});
+    const newCardElement = newCardForGenerate.generateCard();
+    object.cardsListElement.prepend(newCardElement);
+  }
+  }
+);
 
+//Слушатель кнопки "Добавление карточки"
+
+object.openAddCardModalButton.addEventListener('click', () => {
+  openAddCardModalWindow.openModalWindow();
 });
-//-----------------------------------------------------------
+openAddCardModalWindow.submitHandler();
 
-//Обработчики сохранения модалок нажатием на кнопку Submit
-object.formEditProfileModel.addEventListener('submit', profileEditHandler)
-object.formAddCard.addEventListener('submit', profileAddCardHandler)
-//-----------------------------------------------------------
+//====================================
 
-//Обработчик кликов на крестик при показе карточки
-object.closeImageShowModalButton.addEventListener('click', () => {
-  closeModalWindow(object.imageShowModal);
+// Добавление первых карточек
+const defaultCardList = new Section(
+  object.initialCards,
+  {renderer: (cardItem) => {
+    const cardForGenerate = new Card(object.cardTemplate, cardItem);
+    const cardElement = cardForGenerate.generateCard();
+    defaultCardList.setItem(cardElement);
+  }},
+  object.cardsListElement
+  );
 
-});
 
+defaultCardList.render()
 
+//----------------------------------
 
-
-
-//ГЕНЕРИРУЕМ КАРТОЧКИ
-
-object.initialCards.forEach((item) => {
-
-  const cardForGenerate = new Card(object.cardTemplate, item);
-  const cardElement = cardForGenerate.generateCard(item);
-  object.cardsListElement.prepend(cardElement);
-});
-
+//Подключаем валидацию форм
 const profileForm = Array.from(document.querySelectorAll(validationConfig.formSelector))[0];
 const cardForm = Array.from(document.querySelectorAll(validationConfig.formSelector))[1];
 
