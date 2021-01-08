@@ -10,6 +10,7 @@
 @import url(./__input/_type/modal__input_type_place.css);
 @import url(./__input/_type/modal__input_type_status.css);
 @import url(./__input/_type/modal__input_type_valid.css);
+@import url(./__input-error/modal__input-error.css);
 @import url(./__title-image/modal__title-image.css);
 @import url(./__title/modal__title.css);
 @import url(./_is-open/modal_is-open.css);
