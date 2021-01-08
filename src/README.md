@@ -1,6 +1,6 @@
 Проект 4: Место
 
-https://szemelkin.github.io/mesto/index.html
+https://szemelkin.github.io/mesto/src/index.html
 
 На странице представлен профиль человека
 
