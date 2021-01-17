@@ -6,35 +6,25 @@ export class Popup {
     this._modalWindow = modalWindow;
   }
 
-  openModalWindow = () => {
+  openModalWindow() {
     this._modalWindow.classList.add('modal_is-open');
-    this.setEventListeners();
+    //   //Закрытие при нажатии на Esc
+    document.addEventListener('keyup', this._handleEscClose)
   }
 
-  closeModalWindow = () => {
-    document.removeEventListener('keyup', (evt) => {
-      this._handleEscClose(evt)
-    });
-
-    const cancelValidation = new FormValidator(this._modalWindow,validationConfig);
-    cancelValidation.resetValidationErrors();
-
+  closeModalWindow() {
     this._modalWindow.classList.remove('modal_is-open');
+    document.removeEventListener('keyup', this._handleEscClose);
   }
 
-  _handleEscClose(evt) {
+  _handleEscClose = (evt) => {
     if (evt.key === 'Escape') {
-      this._modalWindow.classList.remove('modal_is-open');
-      const cancelValidation = new FormValidator(this._modalWindow,validationConfig);
-      cancelValidation.resetValidationErrors();
+      this.closeModalWindow();
     };
   }
 
   setEventListeners() {
-    //Закрытие при нажатии на Esc
-    document.addEventListener('keyup', (evt) => {
-      this._handleEscClose(evt)
-    });
+
 
     //Закрытие при клике в любом месте
     document.addEventListener('click', (evt) => {

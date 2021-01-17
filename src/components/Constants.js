@@ -28,10 +28,14 @@ const closeAddCardModalButton = addCardModal.querySelector('.modal__close-button
 const closeEditProfileModalButton = editProfileModal.querySelector('.modal__close-button');
 const closeImageShowModalButton = imageShowModal.querySelector('.modal__close-button');
 
-//Картиник
+//Картинки
 const imageInModal = imageShowModal.querySelector('img');
 const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
 const cardTemplate = document.querySelector('.element-template');
+
+//Для работы с профилем
+const userInfoProfileName = editProfileModal.querySelector('.modal__input_type_name')
+const userInfoProfileAbout = editProfileModal.querySelector('.modal__input_type_status')
 
 const initialCards = [
   {
@@ -84,7 +88,9 @@ export const object = {
     subButtonForAddCard,
     initialCards,
     cardsListElement,
-    cardTemplate
+    cardTemplate,
+    userInfoProfileName,
+    userInfoProfileAbout
   }
 
   export const validationConfig = {

@@ -56,7 +56,7 @@
   <section class="modal modal_type_edit-profile">
     <div class="modal__container">
       <button class="modal__close-button"> </button>
-      <form class="modal__form" action="#" novalidate>
+      <form class="modal__form" id="profile_1" action="#" novalidate>
         <h2 class="modal__title">Редактировать профиль</h2>
         <input name="modal__input-name" type="text" class="modal__input modal__input_type_name" required minlength="2" maxlength="40" autocomplete="off">
         <span class="modal__input-error" id="modal__input-name-error"></span>
@@ -71,7 +71,7 @@
   <section class="modal modal_type_add-card">
     <div class="modal__container">
       <button class="modal__close-button"> </button>
-      <form class="modal__form" action="#" novalidate>
+      <form class="modal__form" id="card_1" action="#" novalidate>
         <h2 class="modal__title">Новое место</h2>
         <input name="modal__input-title" type="text" class="modal__input modal__input_type_place" placeholder="Название" required minlength="1" maxlength="30" autocomplete="off">
         <span class="modal__input-error" id="modal__input-title-error"></span>
@@ -103,6 +103,6 @@
   </template>
 
 
-  <script type="module" src="./pages/index.js"></script>
+  <script type="module" src="./components/index.js"></script>
  </body>
 </html>

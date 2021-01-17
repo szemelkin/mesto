@@ -6,21 +6,15 @@ export class PopupWithForm extends Popup{
   constructor(modalWindow, {callback}) {
     super(modalWindow);
     this._callback = callback;
-    this._count = 0;
   }
 
-  closeModalWindow = () => {
-    document.removeEventListener('keyup', (evt) => {
-      this._handleEscClose(evt)
-    });
-
-    const cancelValidation = new FormValidator(this._modalWindow,validationConfig);
-    cancelValidation.resetValidationErrors();
-    this._modalWindow.classList.remove('modal_is-open');
+  closeModalWindow() {
+    super.closeModalWindow();
     this._modalWindow.querySelector('.modal__form').reset();
-
   }
 
+
+  
   _getInputValues() {
     // достаём все элементы полей
     this._inputList = this._modalWindow.querySelectorAll('.modal__input');
@@ -37,12 +31,14 @@ export class PopupWithForm extends Popup{
   // //________________________________________________________________
 
   //Обработка при нажатии кнопки Submit
-  submitHandler() {
+  setEventListeners() {
     this._modalWindow.addEventListener('submit', (evt) => {
       evt.preventDefault(evt);
       this._callback(this._getInputValues());
       this.closeModalWindow();
     })
+
+    super.setEventListeners();
   }
 
 

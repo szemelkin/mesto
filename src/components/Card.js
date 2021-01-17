@@ -4,10 +4,11 @@ import { PopupWithImage } from './PopupWithImage.js'
 import { object, validationConfig } from './Constants.js';
 
 export class Card {
-  constructor(cardElement, data) {
+  constructor(cardElement, data, handleCardClick) {
     this._cardElement = cardElement;
     this._link = data.link;
     this._title = data.name;
+    this._handleCardClick = handleCardClick
   }
 
   _getTemplate() {
@@ -29,19 +30,16 @@ export class Card {
       e.target.closest('.element').remove();
     });
 
+    cardImage.addEventListener('click', () => this._handleCardClick(object.imageShowModal, this._link, this._title));
 
-    cardImage.addEventListener('click', (e) => {
-      const openModalWindowCard = new PopupWithImage(object.imageShowModal, e);
-      openModalWindowCard.openModalWindow();
-      })
   }
 
   generateCard = () => {
 
-
     this._element = this._getTemplate();
     this._element.querySelector('.element__image').src = this._link;
     this._element.querySelector('.element__title').textContent = this._title;
+    this._element.querySelector('.element__image').setAttribute('alt', this._title)
 
     this._setEventListeners()
     return this._element;
