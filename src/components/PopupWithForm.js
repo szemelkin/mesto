@@ -1,30 +1,31 @@
-import { object, validationConfig } from './Constants.js';
-import { FormValidator } from './FormValidator.js';
 import { Popup } from './Popup.js';
+import { object} from '../components/Constants.js';
 
 export class PopupWithForm extends Popup{
   constructor(modalWindow, {callback}) {
     super(modalWindow);
     this._callback = callback;
+    this._resetForm = this._modalWindow.querySelector('.modal__form');
   }
 
   closeModalWindow() {
     super.closeModalWindow();
-    this._modalWindow.querySelector('.modal__form').reset();
+    this._resetForm.reset()
   }
 
 
-  
+
   _getInputValues() {
     // достаём все элементы полей
-    this._inputList = this._modalWindow.querySelectorAll('.modal__input');
+    // this._inputList = this._modalWindow.querySelectorAll('.modal__input');
     // создаём пустой объект
-    this._formValues = {};
+    this._formValues = {name:object.inputTitle.value,link: object.inputUrl.value};
     // добавляем в этот объект значения всех полей
-    this._inputList.forEach(input => {
-      this._formValues[input.name] = input.value;
-    });
-    // возвращаем объект значений
+    // this._inputList.forEach(input => {
+    //   this._formValues[input.name] = input.value;
+    // });
+    // // возвращаем объект значений
+    // console.log('this._formValues',this._formValues)
     return this._formValues;
   }
 
@@ -34,6 +35,7 @@ export class PopupWithForm extends Popup{
   setEventListeners() {
     this._modalWindow.addEventListener('submit', (evt) => {
       evt.preventDefault(evt);
+
       this._callback(this._getInputValues());
       this.closeModalWindow();
     })

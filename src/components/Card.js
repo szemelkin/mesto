@@ -1,8 +1,3 @@
-// import {openModalWindow} from './Utils.js';
-import { Popup } from './Popup.js'
-import { PopupWithImage } from './PopupWithImage.js'
-import { object, validationConfig } from './Constants.js';
-
 export class Card {
   constructor(cardElement, data, handleCardClick) {
     this._cardElement = cardElement;
@@ -30,16 +25,16 @@ export class Card {
       e.target.closest('.element').remove();
     });
 
-    cardImage.addEventListener('click', () => this._handleCardClick(object.imageShowModal, this._link, this._title));
-
+    cardImage.addEventListener('click', () => this._handleCardClick(this._link, this._title));
   }
 
   generateCard = () => {
 
     this._element = this._getTemplate();
-    this._element.querySelector('.element__image').src = this._link;
+    const elementImage = this._element.querySelector('.element__image')
+    elementImage.src = this._link;
     this._element.querySelector('.element__title').textContent = this._title;
-    this._element.querySelector('.element__image').setAttribute('alt', this._title)
+    elementImage.setAttribute('alt', this._title)
 
     this._setEventListeners()
     return this._element;

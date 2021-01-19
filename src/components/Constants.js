@@ -37,6 +37,8 @@ const cardTemplate = document.querySelector('.element-template');
 const userInfoProfileName = editProfileModal.querySelector('.modal__input_type_name')
 const userInfoProfileAbout = editProfileModal.querySelector('.modal__input_type_status')
 
+
+
 const initialCards = [
   {
       name: 'Архыз',

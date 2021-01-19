@@ -1,6 +1,3 @@
-import { validationConfig } from './Constants.js';
-import { FormValidator } from './FormValidator.js';
-
 export class Popup {
   constructor(modalWindow) {
     this._modalWindow = modalWindow;
