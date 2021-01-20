@@ -17,15 +17,15 @@ export class PopupWithForm extends Popup{
 
   _getInputValues() {
     // достаём все элементы полей
-    // this._inputList = this._modalWindow.querySelectorAll('.modal__input');
+    this._inputList = this._modalWindow.querySelectorAll('.modal__input');
     // создаём пустой объект
-    this._formValues = {name:object.inputTitle.value,link: object.inputUrl.value};
+    this._formValues = {};
     // добавляем в этот объект значения всех полей
-    // this._inputList.forEach(input => {
-    //   this._formValues[input.name] = input.value;
-    // });
-    // // возвращаем объект значений
-    // console.log('this._formValues',this._formValues)
+    this._inputList.forEach(input => {
+      if (input.name == 'modal__input-title') {this._formValues.name = input.value}
+      else if (input.name == 'modal__input-url') {this._formValues.link = input.value}
+      else {this._formValues[input.name] = input.value}
+    });
     return this._formValues;
   }
 
@@ -35,7 +35,6 @@ export class PopupWithForm extends Popup{
   setEventListeners() {
     this._modalWindow.addEventListener('submit', (evt) => {
       evt.preventDefault(evt);
-
       this._callback(this._getInputValues());
       this.closeModalWindow();
     })

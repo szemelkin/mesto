@@ -15,6 +15,8 @@ const openEditProfileModalWindow = new PopupWithForm(
   object.editProfileModal,
   {callback: (editProfileData) => {
     userInfo2.setUserInfo(editProfileData['modal__input-name'],editProfileData['modal__input-status'])
+    // userInfo2.setUserInfo(editProfileData.name,editProfileData.link)
+    console.log('editProfileData',editProfileData)
   }
   }
 );
@@ -27,13 +29,12 @@ function handleCardClick(url, title) {
   openModalWindowCard.openModalWindow(url, title);
 }
 
-//Событие. Открытие картинки для редактирования профиля
+//Событие. Открытие окна редактирования профиля
 const cancelValidation1 = new FormValidator(object.editProfileModal,validationConfig);
 object.openEditProfileModalButton.addEventListener('click', () => {
   openEditProfileModalWindow.openModalWindow();
   object.userInfoProfileName.value = userInfo2.getUserInfo().name
   object.userInfoProfileAbout.value = userInfo2.getUserInfo().status
-
   cancelValidation1.resetValidationErrors();
 });
 openEditProfileModalWindow.setEventListeners();
