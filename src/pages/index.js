@@ -40,22 +40,12 @@ object.openEditProfileModalButton.addEventListener('click', () => {
 openEditProfileModalWindow.setEventListeners();
 
 
-
-const putNewCardList = new Section({
-  data: [],
-  renderer: () => {
-  }},
-  object.cardsListElement
-  );
-
-
-
 const openAddCardModalWindow = new PopupWithForm(
   object.addCardModal,
   {callback: (cardItem) => {
         const cardForGenerate = new Card(object.cardTemplate, cardItem, handleCardClick);
         const cardElement = cardForGenerate.generateCard();
-        putNewCardList.setItem(cardElement);
+        defaultCardList.setItem(cardElement);
     }
   }
 );
