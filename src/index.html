@@ -27,11 +27,11 @@
 
         <div class="profile__info">
           <div class="profile__title-btn">
-            <h1 class="profile__title">Жак-Ив Кусто</h1>
+            <h1 class="profile__title"></h1>
             <div class="profile__edit-button"></div>
           </div>
 
-          <p class="profile__text">Исследователь океана</p>
+          <p class="profile__text"></p>
         </div>
 
         <div class="profile__add-button"></div>
@@ -82,6 +82,29 @@
     </div>
   </section>
 
+
+  <section class="modal modal_type_confirmation">
+    <div class="modal__container-confirmation">
+      <button class="modal__close-button"> </button>
+      <form class="modal__form" id="confirmation" action="#" novalidate>
+        <h2 class="modal__title-confirmation">Вы уверены?</h2>
+        <button type="submit" class="modal__btn-save-confirmation" disabled>Да</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="modal modal_type_renew-avatar">
+    <div class="modal__container">
+      <button class="modal__close-button"> </button>
+      <form class="modal__form" id="changePicture_1" action="#" novalidate>
+        <h2 class="modal__title">Обновить аватар</h2>
+        <input name="modal__input-url" type="url" class="modal__input modal__input_type_url" placeholder="Ссылка на картинку" required autocomplete="off">
+        <span class="modal__input-error" id="modal__input-url-error"></span>
+        <button type="submit" class="modal__btn-save" disabled>Сохранить</button>
+      </form>
+    </div>
+  </section>
+
   <section class="modal modal_type_image">
     <div class="modal__container-image">
       <button class="modal__close-button"> </button>
@@ -93,11 +116,14 @@
   <template class="element-template">
     <div class="element" >
       <img class="element__image" src="#" alt="Здесь должна быть картинка">
-      <button class="element__delete"></button>
+      <button id="deleteButton" class="element__delete"></button>
 
       <div class="element__description">
         <p class="element__title"></p>
-        <button class="element__heart"></button>
+        <div class="element__card-info">
+          <button class="element__heart"></button>
+          <p class = "element__count-likes">7</p>
+        </div>
       </div>
     </div>
   </template>

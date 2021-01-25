@@ -5,6 +5,8 @@
 @import url(./__delete/element__delete.css);
 @import url(./__heart/element__heart.css);
 @import url(./__heart/_black/element__heart_black.css);
+@import url(./__count-likes/__count-likes.css);
+@import url(./__card-info/__card-info.css);
 
 
 .element {

@@ -5,7 +5,7 @@ export class Popup {
 
   openModalWindow() {
     this._modalWindow.classList.add('modal_is-open');
-    //   //Закрытие при нажатии на Esc
+      //   //Закрытие при нажатии на Esc
     document.addEventListener('keyup', this._handleEscClose)
   }
 

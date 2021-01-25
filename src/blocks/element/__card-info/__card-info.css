@@ -1,0 +1,22 @@
+.element__card-info {
+
+  /* position: absolute; */
+  width: 22px;
+  height: 76px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* left: 445px; */
+  /* top: 656px; */
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+
+  color: #000000;
+}

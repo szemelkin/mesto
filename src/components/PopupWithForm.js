@@ -1,5 +1,6 @@
 import { Popup } from './Popup.js';
 import { object} from '../components/Constants.js';
+import { Api } from './Api.js'
 
 export class PopupWithForm extends Popup{
   constructor(modalWindow, {callback}) {
@@ -14,7 +15,6 @@ export class PopupWithForm extends Popup{
   }
 
 
-
   _getInputValues() {
     // достаём все элементы полей
     this._inputList = this._modalWindow.querySelectorAll('.modal__input');
@@ -24,8 +24,13 @@ export class PopupWithForm extends Popup{
     this._inputList.forEach(input => {
       if (input.name == 'modal__input-title') {this._formValues.name = input.value}
       else if (input.name == 'modal__input-url') {this._formValues.link = input.value}
+      else if (input.name == 'modal__input-name') {this._formValues.name = input.value}
+      else if (input.name == 'modal__input-status') {this._formValues.about = input.value}
       else {this._formValues[input.name] = input.value}
     });
+
+    // console.log(' _getInputValues() ',this._formValues)
+
     return this._formValues;
   }
 

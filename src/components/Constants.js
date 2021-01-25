@@ -7,6 +7,8 @@ const openEditProfileModalButton = document.querySelector('.profile__edit-button
 const addCardModal = document.querySelector('.modal_type_add-card');
 const editProfileModal = document.querySelector('.modal_type_edit-profile');
 const imageShowModal = document.querySelector('.modal_type_image');
+const editProfilePicture = document.querySelector('.modal_type_renew-avatar');
+const actionConfirmation = document.querySelector('.modal_type_confirmation');
 
 //Поиск формы в модалке
 const formAddCard = addCardModal.querySelector('.modal__form');
@@ -37,6 +39,8 @@ const cardTemplate = document.querySelector('.element-template');
 const userInfoProfileName = editProfileModal.querySelector('.modal__input_type_name')
 const userInfoProfileAbout = editProfileModal.querySelector('.modal__input_type_status')
 
+
+const amountLikes = document.querySelector('.element__count-likes')
 
 
 const initialCards = [
@@ -92,7 +96,10 @@ export const object = {
     cardsListElement,
     cardTemplate,
     userInfoProfileName,
-    userInfoProfileAbout
+    userInfoProfileAbout,
+    editProfilePicture,
+    actionConfirmation,
+    amountLikes
   }
 
   export const validationConfig = {
