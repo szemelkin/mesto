@@ -1,12 +1,41 @@
-// 'https://mesto.nomoreparties.co/v1/cohort-19'
-// '2a94bf63-3818-4ae4-afdc-14a08472aae2'
-
-
-
 export class Api {
   constructor({address, token}) {
     this._address = address;
     this._token = token;
+  }
+
+
+  addLike(data) {
+    return fetch(`${this._address}/cards/likes/${data}`,{
+      method: 'PUT',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(res =>{
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+  }
+
+
+  removeLike(data) {
+    return fetch(`${this._address}/cards/likes/${data}`,{
+      method: 'DELETE',
+      headers: {
+        authorization: this._token
+      }
+    })
+    .then(res =>{
+      if (res.ok) {
+        return res.json();
+      }
+      // если ошибка, отклоняем промис
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
   }
 
 
@@ -22,7 +51,7 @@ export class Api {
         return res.json();
       }
       // если ошибка, отклоняем промис
-      // return Promise.reject(`Ошибка: ${res.status}`);
+      return Promise.reject(`Ошибка: ${res.status}`);
     })
   }
 
@@ -66,16 +95,12 @@ export class Api {
   }
 
   deleteCard(data) {
-    return fetch(`${this._address}/cards/${data._id}`,{
+    console.log('deleteCard',data)
+    return fetch(`${this._address}/cards/${data}`,{
       method: 'DELETE',
       headers: {
         authorization: this._token
-        // 'Content-Type': 'application/json'
       },
-      // body: JSON.stringify({
-      //   name: data.name,
-      //   link: data.link
-      // })
     })
     .then(res =>{
       if (res.ok) {

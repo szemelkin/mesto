@@ -13,7 +13,6 @@ import { Popup } from '../components/Popup';
 const userInfo2 = new UserInfo('.profile__title','.profile__text');
 const userId = 'dc293ceb9cbf27a0f2be8d47'
 
-// const userId = api.getUserInfo().then(data => console.log(data._id));
 
 //_________________________________________________________________
 //API
@@ -23,9 +22,17 @@ const api = new Api({
   token: '2a94bf63-3818-4ae4-afdc-14a08472aae2'
 });
 
+//_________________________________________________________________
+//Определяем окно подтверждения
+//_________________________________________________________________
+const confirmationWindow =  new Popup(
+  object.actionConfirmation,
+
+);
+confirmationWindow.setEventListeners()
 
 // console.log('userdf',api.getUserInfo().then(res => {return JSON.stringify(res)}))
-
+console.log(api.getCards())
 
 //_________________________________________________________________
 //Загружаем карточки впервый раз
@@ -33,9 +40,6 @@ const api = new Api({
 api.getCards()
   .then(res => {
     defaultCardList.render(res)
-    // res.forEach((item) => {
-    //   // console.log(item)
-    // })
   })
 //_________________________________________________________________
 
@@ -44,20 +48,6 @@ api.getUserInfo()
     return userInfo2.setUserInfoApi(res)
   })
 
-// const userId = api.getUserInfo().then(data => console.log(data._id));
-// console.log('userId',userId)
-
-
-// //Редактирование профиля.
-// const openEditProfileModalWindow = new PopupWithForm(
-//   object.editProfileModal,
-//   {callback: (editProfileData) => {
-//     userInfo2.setUserInfo(editProfileData['modal__input-name'],editProfileData['modal__input-status'])
-//     // userInfo2.setUserInfo(editProfileData.name,editProfileData.link)
-//     console.log('editProfileData',editProfileData)
-//   }
-//   }
-// );
 
 //_________________________________________________________________
 // Редактирование профиля.
@@ -74,13 +64,27 @@ const cancelValidation1 = new FormValidator(object.editProfileModal,validationCo
 object.openEditProfileModalButton.addEventListener('click', () => {
   openEditProfileModalWindow.openModalWindow();
   api.getUserInfo().then(data => {
+    renderLoading(object.subButtonForEditProfile,true);
     object.userInfoProfileName.value = data.name
     object.userInfoProfileAbout.value = data.about
-    console.log('МОЙ Id',data._id)
   })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  })
+  .finally(() =>{
+    renderLoading(object.subButtonForEditProfile, false);
+  });
   cancelValidation1.resetValidationErrors();
 });
 openEditProfileModalWindow.setEventListeners();
+
+function renderLoading(modal, boolian){
+  if (boolian == true) {
+  modal.textContent = 'Сохранение...'
+  } else {
+  modal.textContent = 'Сохранить'
+  }
+}
 
 //_________________________________________________________________
 //Событие "Добавление карточки"
@@ -89,11 +93,17 @@ const openAddCardModalWindow = new PopupWithForm(
   object.addCardModal,
   {callback: (cardItem) => {
     api.addCard(cardItem).then(res => {
+      renderLoading(object.subButtonForAddCard,true);
       const cardForGenerate = new Card(object.cardTemplate, res, handleCardClick, userId);
       const cardElement = cardForGenerate.generateCard();
-      defaultCardList.setItem(cardElement);
-      console.log(res)
+      setTimeout(defaultCardList.setItem(cardElement),1000)
     })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    })
+    .finally(() =>{
+      renderLoading(object.subButtonForAddCard,false);
+    });
 
     }
   }
@@ -134,42 +144,20 @@ const defaultCardList = new Section({
 
 
 
-//_________________________________________________________________
-//Определяем окно подтверждения
-//_________________________________________________________________
-const confirmationWindow =  new PopupWithForm(
-  object.actionConfirmation,
-  {callback: (cardItem) => {
-    // console.log(cardItem)
-        // const cardForGenerate = new Card(object.cardTemplate, cardItem, handleCardClick);
-        // const cardElement = cardForGenerate.generateCard();
-        // defaultCardList.setItem(cardElement);
-    }
-  }
-);
-confirmationWindow.setEventListeners()
+
 
 //_________________________________________________________________
 // Вешаем событие смены картинки аватара
 //_________________________________________________________________
-console.log(object.editProfilePicture)
 const cancelValidation3 = new FormValidator(object.editProfilePicture,validationConfig);
 const openModalChangeAvatar = new PopupWithForm(
   object.editProfilePicture,
   {callback: (cardItem) => {
-    // console.log(cardItem)
-    // confirmationWindow.openModalWindow()
     api.addAvatar(cardItem).then(res => userInfo2.setUserInfoApi(res))
-
-        // const cardForGenerate = new Card(object.cardTemplate, cardItem, handleCardClick);
-        // const cardElement = cardForGenerate.generateCard();
-        // defaultCardList.setItem(cardElement);
     }
   }
 );
 document.querySelector('.profile__avatar').addEventListener('click', () => {
-  // console.log('Нажали на аватар')
-  // console.log(object.editProfilePicture)
   openModalChangeAvatar.openModalWindow();
   cancelValidation3.resetValidationErrors();
 

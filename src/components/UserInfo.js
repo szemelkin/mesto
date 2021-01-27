@@ -12,13 +12,6 @@ export class UserInfo {
     return {name:data.name, about:data.about, id: data._id};
   }
 
-  // //Содержит публичный метод setUserInfo, который принимает новые данные пользователя и добавляет их на страницу.
-  // setUserInfo(name, status) {
-  //   // console.log(name, status)
-  //   this._userName.textContent = name;
-  //   this._userAbout.textContent = status;
-  // }
-
   //Временно написали
   setUserInfoApi(data) {
     // console.log('setUserInfoApi',data.avatar)

@@ -33,6 +33,7 @@ const closeImageShowModalButton = imageShowModal.querySelector('.modal__close-bu
 //Картинки
 const imageInModal = imageShowModal.querySelector('img');
 const subButtonForAddCard = formAddCard.querySelector('.modal__btn-save')
+const subButtonForEditProfile = formEditProfileModel.querySelector('.modal__btn-save')
 const cardTemplate = document.querySelector('.element-template');
 
 //Для работы с профилем
@@ -99,7 +100,8 @@ export const object = {
     userInfoProfileAbout,
     editProfilePicture,
     actionConfirmation,
-    amountLikes
+    amountLikes,
+    subButtonForEditProfile
   }
 
   export const validationConfig = {
