@@ -5,6 +5,13 @@ export class Api {
   }
 
 
+  _checkResponse(res) {
+    if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(`Ошибка ${res.status}`);
+}
+
   addLike(data) {
     return fetch(`${this._address}/cards/likes/${data}`,{
       method: 'PUT',
@@ -12,13 +19,7 @@ export class Api {
         authorization: this._token
       }
     })
-    .then(res =>{
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
   }
 
 
@@ -29,13 +30,7 @@ export class Api {
         authorization: this._token
       }
     })
-    .then(res =>{
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
   }
 
 
@@ -46,13 +41,7 @@ export class Api {
         authorization: this._token
       }
     })
-    .then(res =>{
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
   }
 
 
@@ -63,13 +52,7 @@ export class Api {
         authorization: this._token
       }
     })
-    .then(res =>{
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
   }
 
 
@@ -85,13 +68,7 @@ export class Api {
         link: data.link
       })
     })
-    .then(res =>{
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
   }
 
   deleteCard(data) {
@@ -102,13 +79,7 @@ export class Api {
         authorization: this._token
       },
     })
-    .then(res =>{
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
   }
 
   editProfile(data) {
@@ -123,17 +94,12 @@ export class Api {
         about: data.about
       })
     })
-    .then(res =>{
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
   }
 
 
   addAvatar(data) {
+    console.log(data.link)
     return fetch(`${this._address}/users/me/avatar`,{
       method: 'PATCH',
       headers: {
@@ -143,13 +109,8 @@ export class Api {
       body: JSON.stringify({
         avatar: data.link
       })
+
     })
-    .then(res =>{
-      if (res.ok) {
-        return res.json();
-      }
-      // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(this._checkResponse)
   }
 }

@@ -2,7 +2,7 @@
 import './index.css';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
-import { object, validationConfig } from '../components/Constants.js';
+import { object, validationConfig } from '../utils/constants';
 import { Section } from '../components/Section.js';
 import { PopupWithForm } from '../components/PopupWithForm.js';
 import { UserInfo } from '../components/UserInfo.js';
@@ -11,8 +11,36 @@ import { Api } from '../components/Api.js';
 import { Popup } from '../components/Popup';
 
 const userInfo2 = new UserInfo('.profile__title','.profile__text');
-const userId = 'dc293ceb9cbf27a0f2be8d47'
+let userId
 
+function renderLoading(modal, bool){
+  if (bool == true) {
+  modal.textContent = 'Сохранение...'
+  } else {
+  modal.textContent = 'Сохранить'
+  }
+}
+
+function handleCardClick(url, title) {
+  openModalWindowCard.openModalWindow(url, title);
+}
+
+function handleDeleteIconClick(cardId, evt) {
+  confirmationWindow.openModalWindow();
+  object.actionConfirmation.addEventListener('submit', (event) => {
+    event.preventDefault(event);
+    api.deleteCard(cardId).catch((err) => {console.log(err)});
+    evt.target.closest('.element').remove();
+    confirmationWindow.closeModalWindow()
+  })
+}
+//_________________________________________________________________
+//Функция создания карточки
+//_________________________________________________________________
+function createCard(cardTemplate, res, handleCardClick, userId, api, handleDeleteIconClick){
+  const cardForGenerate = new Card(cardTemplate, res, handleCardClick, userId, api, handleDeleteIconClick);
+  return cardForGenerate.generateCard();
+}
 
 //_________________________________________________________________
 //API
@@ -31,9 +59,6 @@ const confirmationWindow =  new Popup(
 );
 confirmationWindow.setEventListeners()
 
-// console.log('userdf',api.getUserInfo().then(res => {return JSON.stringify(res)}))
-console.log(api.getCards())
-
 //_________________________________________________________________
 //Загружаем карточки впервый раз
 //_________________________________________________________________
@@ -41,12 +66,21 @@ api.getCards()
   .then(res => {
     defaultCardList.render(res)
   })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  })
+
 //_________________________________________________________________
 
 api.getUserInfo()
   .then(res => {
+    userId = res._id
     return userInfo2.setUserInfoApi(res)
   })
+  .catch((err) => {
+    console.log(err); // выведем ошибку в консоль
+  })
+
 
 
 //_________________________________________________________________
@@ -55,7 +89,18 @@ api.getUserInfo()
 const openEditProfileModalWindow = new PopupWithForm(
   object.editProfileModal,
   {callback: (editProfileData) => {
-    api.editProfile(editProfileData).then(res => userInfo2.setUserInfoApi(res))
+    renderLoading(object.subButtonForEditProfile,true);
+    api.editProfile(editProfileData)
+    .then(res => {
+
+      userInfo2.setUserInfoApi(res)
+    })
+    .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    })
+    .finally(() =>{
+      renderLoading(object.subButtonForEditProfile,false);
+    });
   }
   }
 );
@@ -63,28 +108,15 @@ const openEditProfileModalWindow = new PopupWithForm(
 const cancelValidation1 = new FormValidator(object.editProfileModal,validationConfig);
 object.openEditProfileModalButton.addEventListener('click', () => {
   openEditProfileModalWindow.openModalWindow();
-  api.getUserInfo().then(data => {
-    renderLoading(object.subButtonForEditProfile,true);
-    object.userInfoProfileName.value = data.name
-    object.userInfoProfileAbout.value = data.about
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  })
-  .finally(() =>{
-    renderLoading(object.subButtonForEditProfile, false);
-  });
+  object.userInfoProfileName.value = userInfo2.getUserInfo().name
+  object.userInfoProfileAbout.value = userInfo2.getUserInfo().about
+
   cancelValidation1.resetValidationErrors();
 });
 openEditProfileModalWindow.setEventListeners();
 
-function renderLoading(modal, boolian){
-  if (boolian == true) {
-  modal.textContent = 'Сохранение...'
-  } else {
-  modal.textContent = 'Сохранить'
-  }
-}
+
+
 
 //_________________________________________________________________
 //Событие "Добавление карточки"
@@ -92,12 +124,10 @@ function renderLoading(modal, boolian){
 const openAddCardModalWindow = new PopupWithForm(
   object.addCardModal,
   {callback: (cardItem) => {
+    renderLoading(object.subButtonForAddCard,true);
     api.addCard(cardItem).then(res => {
-      renderLoading(object.subButtonForAddCard,true);
-      const cardForGenerate = new Card(object.cardTemplate, res, handleCardClick, userId);
-      const cardElement = cardForGenerate.generateCard();
-      setTimeout(defaultCardList.setItem(cardElement),1000)
-    })
+      defaultCardList.setItem(createCard(object.cardTemplate, res, handleCardClick, userId, api, handleDeleteIconClick));
+     })
     .catch((err) => {
       console.log(err); // выведем ошибку в консоль
     })
@@ -112,7 +142,6 @@ const openAddCardModalWindow = new PopupWithForm(
 const cancelValidation2 = new FormValidator(object.addCardModal,validationConfig);
 object.openAddCardModalButton.addEventListener('click', () => {
   openAddCardModalWindow.openModalWindow();
-
   cancelValidation2.resetValidationErrors();
 });
 openAddCardModalWindow.setEventListeners();
@@ -123,20 +152,16 @@ openAddCardModalWindow.setEventListeners();
 const openModalWindowCard = new PopupWithImage(object.imageShowModal);
 openModalWindowCard.setEventListeners();
 
-function handleCardClick(url, title) {
-  openModalWindowCard.openModalWindow(url, title);
-}
+
 
 
 //_________________________________________________________________
 // Добавление первых карточек
 //_________________________________________________________________
-// const apiExp = new Api()
+
 const defaultCardList = new Section({
     renderer: (cardItem) => {
-      const cardForGenerate = new Card(object.cardTemplate, cardItem, handleCardClick, userId);
-      const cardElement = cardForGenerate.generateCard();
-      defaultCardList.setItem(cardElement);
+      defaultCardList.setItem(createCard(object.cardTemplate, cardItem, handleCardClick, userId, api, handleDeleteIconClick));
     }
   },
   object.cardsListElement
@@ -153,7 +178,8 @@ const cancelValidation3 = new FormValidator(object.editProfilePicture,validation
 const openModalChangeAvatar = new PopupWithForm(
   object.editProfilePicture,
   {callback: (cardItem) => {
-    api.addAvatar(cardItem).then(res => userInfo2.setUserInfoApi(res))
+    console.log('Карточка Аватара',cardItem)
+    api.addAvatar(cardItem).then(res => userInfo2.setUserInfoApi(res)).catch((err) => {console.log(err)})
     }
   }
 );

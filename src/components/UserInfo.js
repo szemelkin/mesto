@@ -8,23 +8,15 @@ export class UserInfo {
   }
 
   //Содержит публичный метод getUserInfo, который возвращает объект с данными пользователя. Этот метод пригодится когда данные пользователя нужно будет подставить в форму при открытии.
-  getUserInfo(data) {
-    return {name:data.name, about:data.about, id: data._id};
+  getUserInfo() {
+    return {name:this._userName.textContent, about:this._userAbout.textContent};
   }
 
   //Временно написали
   setUserInfoApi(data) {
-    // console.log('setUserInfoApi',data.avatar)
     this._userName.textContent = data.name;
     this._userAbout.textContent = data.about;
     this._userAvatar.setAttribute('style',`background-image: url(${data.avatar})`)
-    // (`#${inputElement.name}-error`);
-  }
-
-  getUserId(data) {
-    this._userId = data._id
-    console.log(this._userId )
-    return this._userId
   }
 
 }

@@ -1,8 +1,5 @@
-import { Api } from '../components/Api.js';
-import { object } from '../components/Constants.js';
-
 export class Card {
-  constructor(cardElement, data, handleCardClick, userId) {
+  constructor(cardElement, data, handleCardClick, userId, api, handleDeleteIconClick) {
     this._cardElement = cardElement;
     this._link = data.link;
     this._title = data.name;
@@ -11,10 +8,8 @@ export class Card {
     this._ownerId = data.owner._id;
     this._handleCardClick = handleCardClick;
     this._userId = userId;
-    this._api = new Api({
-      address: 'https://mesto.nomoreparties.co/v1/cohort-19',
-      token: '2a94bf63-3818-4ae4-afdc-14a08472aae2'
-    });
+    this._api = api;
+    this._handleDeleteIconClick = handleDeleteIconClick;
   }
 
   _getTemplate() {
@@ -22,30 +17,25 @@ export class Card {
     return cardElement;
   }
 
-
-
-
   _handleDeleteCard(evt) {
-    console.log(object.actionConfirmation)
-    object.actionConfirmation.classList.add('modal_is-open')
-    console.log(object.actionConfirmation.querySelector('.modal__btn-save-confirmation'))
-    object.actionConfirmation.addEventListener('submit', (event) => {
-      event.preventDefault(event);
-      this._api.deleteCard(this._idCard).catch((err) => {console.log(err)});
-      evt.target.closest('.element').remove();
-      object.actionConfirmation.classList.remove('modal_is-open')
-    })
+    this._handleDeleteIconClick(this._idCard, evt)
   }
 
   _handleLike(evt) {
     if (evt.target.classList.contains('element__heart_black')) {
-      this._api.removeLike(this._idCard).catch((err) => {console.log(err)});
-      evt.target.classList.remove('element__heart_black')
-      evt.target.nextElementSibling.textContent = parseInt(evt.target.nextElementSibling.textContent)-1
-    } else {
-      this._api.addLike(this._idCard).catch((err) => {console.log(err)});
-      evt.target.classList.add('element__heart_black')
-      evt.target.nextElementSibling.textContent = parseInt(evt.target.nextElementSibling.textContent)+1
+      this._api.removeLike(this._idCard)
+      .then(res => {
+        evt.target.classList.remove('element__heart_black')
+        evt.target.nextElementSibling.textContent = res.likes.length
+      })
+      .catch((err) => {console.log(err)});
+  } else {
+      this._api.addLike(this._idCard)
+      .then(res => {
+        evt.target.classList.add('element__heart_black')
+        evt.target.nextElementSibling.textContent = res.likes.length
+      })
+      .catch((err) => {console.log(err)});
     }
   }
 
@@ -69,6 +59,7 @@ export class Card {
   }
 
   generateCard = () => {
+    console.log('generateCard', this._userId)
     this._element = this._getTemplate();
     if (this._ownerId !== this._userId) {this._element.getElementById("deleteButton").remove()}
     const elementImage = this._element.querySelector('.element__image')
