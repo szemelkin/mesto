@@ -59,7 +59,6 @@ export class Card {
   }
 
   generateCard = () => {
-    console.log('generateCard', this._userId)
     this._element = this._getTemplate();
     if (this._ownerId !== this._userId) {this._element.getElementById("deleteButton").remove()}
     const elementImage = this._element.querySelector('.element__image')

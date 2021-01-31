@@ -72,7 +72,6 @@ export class Api {
   }
 
   deleteCard(data) {
-    console.log('deleteCard',data)
     return fetch(`${this._address}/cards/${data}`,{
       method: 'DELETE',
       headers: {

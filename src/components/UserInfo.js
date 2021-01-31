@@ -1,10 +1,10 @@
 export class UserInfo {
 
   //Принимает в конструктор объект с селекторами двух элементов: элемента имени пользователя и элемента информации о себе.
-  constructor(nameSelector, aboutSelector) {
+  constructor(nameSelector, aboutSelector, avatarSelector) {
     this._userName = document.querySelector(nameSelector)
     this._userAbout = document.querySelector(aboutSelector)
-    this._userAvatar = document.querySelector('.profile__avatar')
+    this._userAvatar = document.querySelector(avatarSelector)//'.profile__avatar')
   }
 
   //Содержит публичный метод getUserInfo, который возвращает объект с данными пользователя. Этот метод пригодится когда данные пользователя нужно будет подставить в форму при открытии.

@@ -9,8 +9,9 @@ import { UserInfo } from '../components/UserInfo.js';
 import { PopupWithImage } from '../components/PopupWithImage';
 import { Api } from '../components/Api.js';
 import { Popup } from '../components/Popup';
+import { PopupWithFormSubmit } from '../components/PopupWithFormSubmit';
 
-const userInfo2 = new UserInfo('.profile__title','.profile__text');
+const userInfo2 = new UserInfo('.profile__title','.profile__text','.profile__avatar');
 let userId
 
 function renderLoading(modal, bool){
@@ -27,13 +28,14 @@ function handleCardClick(url, title) {
 
 function handleDeleteIconClick(cardId, evt) {
   confirmationWindow.openModalWindow();
-  object.actionConfirmation.addEventListener('submit', (event) => {
-    event.preventDefault(event);
-    api.deleteCard(cardId).catch((err) => {console.log(err)});
-    evt.target.closest('.element').remove();
-    confirmationWindow.closeModalWindow()
+  confirmationWindow.setSubmitAction(
+    {action: () => {
+      api.deleteCard(cardId).catch((err) => {console.log(err)});
+      evt.target.closest('.element').remove();
+      confirmationWindow.closeModalWindow()
+    }
   })
-}
+};
 //_________________________________________________________________
 //Функция создания карточки
 //_________________________________________________________________
@@ -53,12 +55,10 @@ const api = new Api({
 //_________________________________________________________________
 //Определяем окно подтверждения
 //_________________________________________________________________
-const confirmationWindow =  new Popup(
+const confirmationWindow =  new PopupWithFormSubmit(
   object.actionConfirmation,
-
 );
 confirmationWindow.setEventListeners()
-
 //_________________________________________________________________
 //Загружаем карточки впервый раз
 //_________________________________________________________________
@@ -92,7 +92,6 @@ const openEditProfileModalWindow = new PopupWithForm(
     renderLoading(object.subButtonForEditProfile,true);
     api.editProfile(editProfileData)
     .then(res => {
-
       userInfo2.setUserInfoApi(res)
     })
     .catch((err) => {
@@ -178,7 +177,6 @@ const cancelValidation3 = new FormValidator(object.editProfilePicture,validation
 const openModalChangeAvatar = new PopupWithForm(
   object.editProfilePicture,
   {callback: (cardItem) => {
-    console.log('Карточка Аватара',cardItem)
     api.addAvatar(cardItem).then(res => userInfo2.setUserInfoApi(res)).catch((err) => {console.log(err)})
     }
   }
